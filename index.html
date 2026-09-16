@@ -485,6 +485,13 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -527,10 +534,8 @@
                     </div>
                     <div>
                         <span class="filter-section-title">🏷️ Brand</span>
-                        <div class="filter-buttons">
+                        <div class="filter-buttons" id="brandFilters">
                             <button class="btn active" data-brand="All" onclick="filterBrand('All', this)">All Brands</button>
-                            <button class="btn" data-brand="Fragrance World" onclick="filterBrand('Fragrance World', this)">Fragrance World</button>
-                            <button class="btn" data-brand="Lattafa" onclick="filterBrand('Lattafa', this)">Lattafa</button>
                         </div>
                     </div>
                 </div>
@@ -565,254 +570,39 @@
     </div>
 
     <script>
-        const fragrances = [
-            {
-                id: 1,
-                brand: "Lattafa",
-                name: "Lail Maleki Moroccan Blue",
-                bottleSize: "N/A",
-                concentration: "EDP",
-                inspiredBy: "Versace Dylan Blue",
-                mainProfile: "Aquatic blue, citrus, ambroxan, light incense",
-                versatility: "SA Year-Round / Daily Signature",
-                themeClass: "theme-year-round",
-                badgeClass: "badge-year-round",
-                tags: ["Year-Round", "Summer", "SpringAutumn"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Bergamot, Lemon, Pink Pepper",
-                middleNotes: "Aquatic Notes, Ambroxan, Light Incense",
-                baseNotes: "Cedarwood, Musk, Driftwood",
-                gender: "Unisex",
-                officeWear: "Highly office-friendly. Fresh and crisp, professional.",
-                salonSettings: "Fits modern settings, casual daytime outings.",
-                bestFor: "Year-round wear, daytime and evening",
-                vibe: "Fresh, aquatic, sophisticated",
-                price: "R 245.00 ZAR",
-                scent_experience: "Opens with fresh citrus and bergamot. The heart develops clean aquatic and ambroxan notes. Settles into a smooth, woody base with musk and driftwood for lasting presence."
-            },
-            {
-                id: 2,
-                brand: "Fragrance World",
-                name: "Imaginari",
-                bottleSize: "100ml",
-                concentration: "EDP",
-                inspiredBy: "Louis Vuitton L'Immensité",
-                mainProfile: "Bright grapefruit, fresh ginger, warm amber",
-                versatility: "Spring, Autumn & Summer",
-                themeClass: "theme-summer",
-                badgeClass: "badge-summer",
-                tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Grapefruit, Ginger, Lemon",
-                middleNotes: "Spices, Ginger Accord, Ambrette",
-                baseNotes: "Amber, Woody Notes, Vanilla",
-                gender: "Unisex",
-                officeWear: "Office-friendly. Crisp and energetic.",
-                salonSettings: "Great for modern settings and casual daytime.",
-                bestFor: "Spring, Autumn and Summer wear",
-                vibe: "Fresh, spicy, warm, energetic",
-                price: "R 280.00 ZAR",
-                scent_experience: "Bursts open with bright grapefruit and zesty ginger. The heart adds warm spices and ambrette. Base settles into rich amber and woody notes."
-            },
-            {
-                id: 3,
-                brand: "Fragrance World",
-                name: "Brown Orchid Blanc Edition",
-                bottleSize: "80ml",
-                concentration: "EDP",
-                inspiredBy: "Creed Silver Mountain Water",
-                mainProfile: "Crisp green tea, blackcurrant, white musk",
-                versatility: "Summer & Warm Spring/Autumn",
-                themeClass: "theme-summer",
-                badgeClass: "badge-summer",
-                tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Green Tea, Blackcurrant, Bergamot",
-                middleNotes: "White Florals, Tea Leaf, Aldehydes",
-                baseNotes: "White Musk, Cedarwood, Musk",
-                gender: "Unisex",
-                officeWear: "Highly office-friendly. Clean and sophisticated.",
-                salonSettings: "Fits modern and upscale casual settings.",
-                bestFor: "Summer and warm seasonal wear",
-                vibe: "Fresh, clean, elegant, slightly fruity",
-                price: "R 260.00 ZAR",
-                scent_experience: "Opens with crisp green tea and tart blackcurrant. Heart blooms with white florals and fresh tea notes. Settles into a clean, musky base."
-            },
-            {
-                id: 4,
-                brand: "Fragrance World",
-                name: "Brown Orchid Sapphire",
-                bottleSize: "80ml",
-                concentration: "EDP",
-                inspiredBy: "Calvin Klein Eternity / Clean Blue",
-                mainProfile: "Clean aromatic aquatic notes, light cedar",
-                versatility: "Summer & Daytime Warmth",
-                themeClass: "theme-summer",
-                badgeClass: "badge-summer",
-                tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Bergamot, Lemon, Grapefruit",
-                middleNotes: "Aquatic Accord, Geranium, Carnation",
-                baseNotes: "Cedarwood, Musk, Woody Notes",
-                gender: "Unisex",
-                officeWear: "Very office-friendly. Clean and professional.",
-                salonSettings: "Great for modern and upscale settings.",
-                bestFor: "Summer and daytime wear",
-                vibe: "Clean, aromatic, aquatic, fresh",
-                price: "R 260.00 ZAR",
-                scent_experience: "Opens with bright citrus. Heart develops clean aquatic notes with light florals. Base reveals warm cedarwood and musk."
-            },
-            {
-                id: 5,
-                brand: "Fragrance World",
-                name: "Intense Noir Le Parfum",
-                bottleSize: "100ml",
-                concentration: "Parfum",
-                inspiredBy: "JPG Le Male Le Parfum / Creed Aventus",
-                mainProfile: "Pineapple, smoky amber, cardamom, lavender, vanilla",
-                versatility: "Year-Round (Best in Cold/Evenings)",
-                themeClass: "theme-year-round",
-                badgeClass: "badge-year-round",
-                tags: ["Year-Round", "Winter", "SpringAutumn"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Bergamot, Clary Sage, Rosemary, Coriander",
-                middleNotes: "Lavender, Black Cardamom, Orange Blossom",
-                baseNotes: "Vanilla, Amber Wood, Vetiver, White Musk",
-                gender: "Unisex",
-                officeWear: "Highly office-friendly. Herbal sage and crisp lavender create a clean, professional, well-balanced aura when lightly applied.",
-                salonSettings: "Fits modern salons, barbershops, daytime casual outings, and evening gatherings.",
-                bestFor: "Year-round wear, daytime and evening settings",
-                vibe: "Bold, aromatic, warm-spicy, sophisticated",
-                price: "R 295.00 ZAR",
-                scent_experience: "Opens with an invigorating, fresh herbal burst of bergamot, rosemary, and clary sage. The heart introduces a warm, aromatic blend of lavender and exotic black cardamom lifted by soft orange blossom. Settles into a smooth, comforting base of rich amber wood, earthy vetiver, sweet vanilla, and clean white musk."
-            },
-            {
-                id: 6,
-                brand: "Fragrance World",
-                name: "Aqua Pura",
-                bottleSize: "70ml",
-                concentration: "EDP",
-                inspiredBy: "Orto Parisi Megamare",
-                mainProfile: "Intense ocean salt, seaweed, metallic woods",
-                versatility: "Peak Summer / Coastal High Heat",
-                themeClass: "theme-summer",
-                badgeClass: "badge-summer",
-                tags: ["Summer"],
-                sprays: { summer: "2-3", winter: "3-4", springAutumn: "3-4" },
-                topNotes: "Sea Salt, Mineral Notes, Citrus",
-                middleNotes: "Seaweed, Aquatic Accord, Salty Elements",
-                baseNotes: "Metallic Woods, Ambroxan, Musk",
-                gender: "Unisex",
-                officeWear: "Office-friendly for creative or casual workplaces.",
-                salonSettings: "Perfect for modern, edgy settings and coastal casual.",
-                bestFor: "Peak summer, especially in coastal areas",
-                vibe: "Salty, oceanic, fresh, unique, metallic",
-                price: "R 275.00 ZAR",
-                scent_experience: "Opens with intense sea salt and mineral notes. Heart develops seaweed and salty aquatic accords. Base settles into metallic woods with ambroxan."
-            },
-            {
-                id: 7,
-                brand: "Fragrance World",
-                name: "Hibiscus Magic",
-                bottleSize: "80ml",
-                concentration: "EDP",
-                inspiredBy: "Maison Crivelli Hibiscus Mahajád",
-                mainProfile: "Hibiscus floral, juicy cassis, soft leather",
-                versatility: "Spring & Autumn Focus",
-                themeClass: "theme-spring-autumn",
-                badgeClass: "badge-spring-autumn",
-                tags: ["SpringAutumn"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Hibiscus, Cassis, Blackcurrant",
-                middleNotes: "Floral Accord, Peony, Rose",
-                baseNotes: "Soft Leather, Musk, Woody Notes",
-                gender: "Unisex",
-                officeWear: "Office-friendly with soft florals.",
-                salonSettings: "Great for elegant and upscale settings.",
-                bestFor: "Spring and Autumn wear",
-                vibe: "Floral, juicy, warm, slightly edgy",
-                price: "R 280.00 ZAR",
-                scent_experience: "Opens with vibrant hibiscus and juicy cassis. Heart blooms with soft florals. Base reveals warm leather and woody notes."
-            },
-            {
-                id: 8,
-                brand: "Fragrance World",
-                name: "Hayaati Beau",
-                bottleSize: "100ml",
-                concentration: "EDP",
-                inspiredBy: "Lattafa Hayaati / Invictus style",
-                mainProfile: "Sweet citrus, fresh ambergris, bubblegum aquatic",
-                versatility: "SA Year-Round / Casual & Night Out",
-                themeClass: "theme-year-round",
-                badgeClass: "badge-year-round",
-                tags: ["Year-Round", "Summer"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Bergamot, Citrus, Grapefruit",
-                middleNotes: "Ambroxan, Aquatic Accord, Bubblegum",
-                baseNotes: "Ambroxan, Musk, Woody Notes",
-                gender: "Unisex",
-                officeWear: "Office-friendly. Sweet but not overwhelming.",
-                salonSettings: "Perfect for casual outings and night out.",
-                bestFor: "Year-round, casual and evening wear",
-                vibe: "Sweet, fruity, aquatic, fun, youthful",
-                price: "R 270.00 ZAR",
-                scent_experience: "Bursts open with sweet citrus and bergamot. Heart develops fresh ambroxan and bubblegum aquatic notes. Base settles into warm musk."
-            },
-            {
-                id: 9,
-                brand: "Fragrance World",
-                name: "Imperium",
-                bottleSize: "100ml",
-                concentration: "EDP",
-                inspiredBy: "Roja Parfums Elysium",
-                mainProfile: "Zesty citrus cocktail, vetiver, cedarwood",
-                versatility: "Summer & Warm Daytime",
-                themeClass: "theme-summer",
-                badgeClass: "badge-summer",
-                tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Grapefruit, Mandarin, Bergamot",
-                middleNotes: "Citrus Cocktail, Geranium, Spices",
-                baseNotes: "Vetiver, Cedarwood, Woody Notes",
-                gender: "Unisex",
-                officeWear: "Very office-friendly. Fresh and energetic.",
-                salonSettings: "Great for modern and creative settings.",
-                bestFor: "Summer and warm daytime wear",
-                vibe: "Fresh, zesty, citrusy, sophisticated",
-                price: "R 285.00 ZAR",
-                scent_experience: "Opens with bright, zesty citrus cocktail. Heart develops spiced geranium and citrus notes. Base reveals earthy vetiver and cedarwood."
-            },
-            {
-                id: 10,
-                brand: "Fragrance World",
-                name: "Inizio For Him",
-                bottleSize: "100ml",
-                concentration: "EDP",
-                inspiredBy: "Armani Code / Classic Aromatic",
-                mainProfile: "Star anise, leather, smooth tonka bean",
-                versatility: "SA Year-Round / Evening & Cool Days",
-                themeClass: "theme-year-round",
-                badgeClass: "badge-year-round",
-                tags: ["Year-Round", "Winter"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
-                topNotes: "Bergamot, Star Anise, Cinnamon",
-                middleNotes: "Leather Accord, Nutmeg, Spices",
-                baseNotes: "Tonka Bean, Vanilla, Amber",
-                gender: "Unisex",
-                officeWear: "Office-friendly. Warm and professional.",
-                salonSettings: "Perfect for evening and cool weather settings.",
-                bestFor: "Year-round, evening and cool weather wear",
-                vibe: "Aromatic, warm, spicy, leathery, smooth",
-                price: "R 280.00 ZAR",
-                scent_experience: "Opens with aromatic star anise and cinnamon. Heart develops leather and spiced notes. Base settles into smooth tonka bean and warm amber."
-            }
-        ];
-
+        let fragrances = [];
         let activeCategory = 'All';
         let activeConcentration = 'All';
         let activeBrand = 'All';
         let searchQuery = '';
         let sortBy = 'name-asc';
+
+        // Load fragrances from JSON
+        async function loadFragrances() {
+            try {
+                const response = await fetch('fragrances.json');
+                fragrances = await response.json();
+                populateBrandFilters();
+                renderFragrances();
+            } catch (error) {
+                console.error('Error loading fragrances:', error);
+                document.getElementById('fragranceGrid').innerHTML = '<div class="loading">Error loading fragrances. Please refresh the page.</div>';
+            }
+        }
+
+        function populateBrandFilters() {
+            const brands = [...new Set(fragrances.map(f => f.brand))].sort();
+            const brandFilters = document.getElementById('brandFilters');
+            
+            brands.forEach(brand => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.setAttribute('data-brand', brand);
+                btn.textContent = brand;
+                btn.onclick = () => filterBrand(brand, btn);
+                brandFilters.appendChild(btn);
+            });
+        }
 
         function renderFragrances() {
             const grid = document.getElementById('fragranceGrid');
@@ -835,7 +625,7 @@
             filtered = sortFragrances(filtered);
 
             // Update results info
-            resultsInfo.textContent = `Showing ${filtered.length} fragrance${filtered.length !== 1 ? 's' : ''}`;
+            resultsInfo.textContent = `Showing ${filtered.length} fragrance${filtered.length !== 1 ? 's' : ''} of ${fragrances.length} total`;
 
             if (filtered.length === 0) {
                 grid.innerHTML = `<div class="no-results">No fragrances match your search criteria.</div>`;
@@ -1028,7 +818,8 @@
             renderFragrances();
         });
 
-        renderFragrances();
+        // Load fragrances when page loads
+        window.addEventListener('load', loadFragrances);
     </script>
 </body>
 </html>
