@@ -128,6 +128,25 @@
             font-weight: bold;
         }
 
+        .btn-details {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: 1px solid #38bdf8;
+            padding: 0.6rem 1.1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-details:hover {
+            background-color: #06b6d4;
+            border-color: #06b6d4;
+        }
+
         /* Color-coded filter button active states */
         .btn[data-category="All"].active { background-color: #38bdf8; color: #0f172a; border-color: #38bdf8; }
         .btn[data-category="Summer"].active { background-color: var(--color-summer); color: #0f172a; border-color: var(--color-summer); }
@@ -283,6 +302,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 0.4rem;
             text-align: center;
+            margin-bottom: 1rem;
         }
 
         .spray-item {
@@ -310,6 +330,12 @@
             color: var(--text-primary);
         }
 
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
@@ -324,72 +350,219 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+
+        /* Detail Page Styles */
+        .detail-page {
+            display: none;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .detail-page.active {
+            display: block;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+
+        .detail-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .detail-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .detail-content h3 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #38bdf8;
+        }
+
+        .detail-content ul {
+            list-style: none;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-content li {
+            padding: 0.4rem 0;
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-content li:last-child {
+            border-bottom: none;
+        }
+
+        .detail-content li strong {
+            color: #38bdf8;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .note-card {
+            background-color: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .note-card h4 {
+            color: #38bdf8;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .note-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .price-tag {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--color-year-round);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .grid-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gird-list-item {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .gird-list-item strong {
+            color: #38bdf8;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .gird-list-item span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Fragrance World SA Database</h1>
-        <p class="subtitle">Categorized for Southern Hemisphere seasons & climate conditions</p>
-    </header>
+    <!-- Main Grid View -->
+    <div id="gridView" class="active">
+        <header>
+            <h1>Fragrance World SA Database</h1>
+            <p class="subtitle">Categorized for Southern Hemisphere seasons & climate conditions</p>
+        </header>
 
-    <div class="controls-container">
-        <div class="controls">
-            <input type="text" id="searchInput" class="search-box" placeholder="Search by name, clone, or scent notes...">
-        </div>
-
-        <!-- Season Filter -->
-        <div class="filter-section">
-            <span class="filter-section-title">🌍 Season Filter</span>
-            <div class="filter-buttons">
-                <button class="btn active" data-category="All" onclick="filterCategory('All', this)">All Seasons</button>
-                <button class="btn" data-category="Summer" onclick="filterCategory('Summer', this)">☀️ Summer (Dec–Feb)</button>
-                <button class="btn" data-category="SpringAutumn" onclick="filterCategory('SpringAutumn', this)">🍂 Spring & Autumn</button>
-                <button class="btn" data-category="Winter" onclick="filterCategory('Winter', this)">❄️ Winter (Jun–Aug)</button>
-                <button class="btn" data-category="Year-Round" onclick="filterCategory('Year-Round', this)">🔄 Year-Round</button>
+        <div class="controls-container">
+            <div class="controls">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search by name, clone, or scent notes...">
             </div>
-        </div>
 
-        <!-- Concentration & Brand Filter -->
-        <div class="filter-section">
-            <div class="filter-row">
-                <div>
-                    <span class="filter-section-title">💎 Concentration</span>
-                    <div class="filter-buttons">
-                        <button class="btn active" data-concentration="All" onclick="filterConcentration('All', this)">All Types</button>
-                        <button class="btn" data-concentration="EDP" onclick="filterConcentration('EDP', this)">EDP</button>
-                        <button class="btn" data-concentration="Parfum" onclick="filterConcentration('Parfum', this)">Parfum</button>
-                        <button class="btn" data-concentration="EDT" onclick="filterConcentration('EDT', this)">EDT</button>
-                    </div>
-                </div>
-                <div>
-                    <span class="filter-section-title">🏷️ Brand</span>
-                    <div class="filter-buttons">
-                        <button class="btn active" data-brand="All" onclick="filterBrand('All', this)">All Brands</button>
-                        <button class="btn" data-brand="Fragrance World" onclick="filterBrand('Fragrance World', this)">Fragrance World</button>
-                        <button class="btn" data-brand="Lattafa" onclick="filterBrand('Lattafa', this)">Lattafa</button>
-                    </div>
+            <!-- Season Filter -->
+            <div class="filter-section">
+                <span class="filter-section-title">🌍 Season Filter</span>
+                <div class="filter-buttons">
+                    <button class="btn active" data-category="All" onclick="filterCategory('All', this)">All Seasons</button>
+                    <button class="btn" data-category="Summer" onclick="filterCategory('Summer', this)">☀️ Summer (Dec–Feb)</button>
+                    <button class="btn" data-category="SpringAutumn" onclick="filterCategory('SpringAutumn', this)">🍂 Spring & Autumn</button>
+                    <button class="btn" data-category="Winter" onclick="filterCategory('Winter', this)">❄️ Winter (Jun–Aug)</button>
+                    <button class="btn" data-category="Year-Round" onclick="filterCategory('Year-Round', this)">🔄 Year-Round</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Sorting -->
-        <div class="filter-section">
-            <span class="filter-section-title">📊 Sort By</span>
-            <div class="filter-buttons">
-                <select id="sortBy" class="select-dropdown" onchange="updateSort()">
-                    <option value="name-asc">Name (A-Z)</option>
-                    <option value="name-desc">Name (Z-A)</option>
-                    <option value="brand-asc">Brand (A-Z)</option>
-                    <option value="concentration">Concentration (Highest First)</option>
-                    <option value="newest">Newest Added</option>
-                </select>
+            <!-- Concentration & Brand Filter -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div>
+                        <span class="filter-section-title">💎 Concentration</span>
+                        <div class="filter-buttons">
+                            <button class="btn active" data-concentration="All" onclick="filterConcentration('All', this)">All Types</button>
+                            <button class="btn" data-concentration="EDP" onclick="filterConcentration('EDP', this)">EDP</button>
+                            <button class="btn" data-concentration="Parfum" onclick="filterConcentration('Parfum', this)">Parfum</button>
+                            <button class="btn" data-concentration="EDT" onclick="filterConcentration('EDT', this)">EDT</button>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="filter-section-title">🏷️ Brand</span>
+                        <div class="filter-buttons">
+                            <button class="btn active" data-brand="All" onclick="filterBrand('All', this)">All Brands</button>
+                            <button class="btn" data-brand="Fragrance World" onclick="filterBrand('Fragrance World', this)">Fragrance World</button>
+                            <button class="btn" data-brand="Lattafa" onclick="filterBrand('Lattafa', this)">Lattafa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sorting -->
+            <div class="filter-section">
+                <span class="filter-section-title">📊 Sort By</span>
+                <div class="filter-buttons">
+                    <select id="sortBy" class="select-dropdown" onchange="updateSort()">
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="brand-asc">Brand (A-Z)</option>
+                        <option value="concentration">Concentration (Highest First)</option>
+                        <option value="newest">Newest Added</option>
+                    </select>
+                </div>
             </div>
         </div>
+
+        <div class="results-info" id="resultsInfo"></div>
+        <main class="fragrance-grid" id="fragranceGrid"></main>
     </div>
 
-    <div class="results-info" id="resultsInfo"></div>
-    <main class="fragrance-grid" id="fragranceGrid"></main>
+    <!-- Detail Page View -->
+    <div id="detailView" class="detail-page">
+        <div class="detail-header">
+            <button class="back-btn" onclick="goBack()">← Back to Collection</button>
+            <h1 id="detailTitle"></h1>
+        </div>
+        <div class="detail-content" id="detailContent"></div>
+    </div>
 
     <script>
         const fragrances = [
@@ -405,7 +578,17 @@
                 themeClass: "theme-year-round",
                 badgeClass: "badge-year-round",
                 tags: ["Year-Round", "Summer", "SpringAutumn"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Bergamot, Lemon, Pink Pepper",
+                middleNotes: "Aquatic Notes, Ambroxan, Light Incense",
+                baseNotes: "Cedarwood, Musk, Driftwood",
+                gender: "Unisex",
+                officeWear: "Highly office-friendly. Fresh and crisp, professional.",
+                salonSettings: "Fits modern settings, casual daytime outings.",
+                bestFor: "Year-round wear, daytime and evening",
+                vibe: "Fresh, aquatic, sophisticated",
+                price: "R 245.00 ZAR",
+                scent_experience: "Opens with fresh citrus and bergamot. The heart develops clean aquatic and ambroxan notes. Settles into a smooth, woody base with musk and driftwood for lasting presence."
             },
             {
                 id: 2,
@@ -419,7 +602,17 @@
                 themeClass: "theme-summer",
                 badgeClass: "badge-summer",
                 tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Grapefruit, Ginger, Lemon",
+                middleNotes: "Spices, Ginger Accord, Ambrette",
+                baseNotes: "Amber, Woody Notes, Vanilla",
+                gender: "Unisex",
+                officeWear: "Office-friendly. Crisp and energetic.",
+                salonSettings: "Great for modern settings and casual daytime.",
+                bestFor: "Spring, Autumn and Summer wear",
+                vibe: "Fresh, spicy, warm, energetic",
+                price: "R 280.00 ZAR",
+                scent_experience: "Bursts open with bright grapefruit and zesty ginger. The heart adds warm spices and ambrette. Base settles into rich amber and woody notes."
             },
             {
                 id: 3,
@@ -433,7 +626,17 @@
                 themeClass: "theme-summer",
                 badgeClass: "badge-summer",
                 tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Green Tea, Blackcurrant, Bergamot",
+                middleNotes: "White Florals, Tea Leaf, Aldehydes",
+                baseNotes: "White Musk, Cedarwood, Musk",
+                gender: "Unisex",
+                officeWear: "Highly office-friendly. Clean and sophisticated.",
+                salonSettings: "Fits modern and upscale casual settings.",
+                bestFor: "Summer and warm seasonal wear",
+                vibe: "Fresh, clean, elegant, slightly fruity",
+                price: "R 260.00 ZAR",
+                scent_experience: "Opens with crisp green tea and tart blackcurrant. Heart blooms with white florals and fresh tea notes. Settles into a clean, musky base."
             },
             {
                 id: 4,
@@ -447,7 +650,17 @@
                 themeClass: "theme-summer",
                 badgeClass: "badge-summer",
                 tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Bergamot, Lemon, Grapefruit",
+                middleNotes: "Aquatic Accord, Geranium, Carnation",
+                baseNotes: "Cedarwood, Musk, Woody Notes",
+                gender: "Unisex",
+                officeWear: "Very office-friendly. Clean and professional.",
+                salonSettings: "Great for modern and upscale settings.",
+                bestFor: "Summer and daytime wear",
+                vibe: "Clean, aromatic, aquatic, fresh",
+                price: "R 260.00 ZAR",
+                scent_experience: "Opens with bright citrus. Heart develops clean aquatic notes with light florals. Base reveals warm cedarwood and musk."
             },
             {
                 id: 5,
@@ -461,7 +674,17 @@
                 themeClass: "theme-year-round",
                 badgeClass: "badge-year-round",
                 tags: ["Year-Round", "Winter", "SpringAutumn"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Bergamot, Clary Sage, Rosemary, Coriander",
+                middleNotes: "Lavender, Black Cardamom, Orange Blossom",
+                baseNotes: "Vanilla, Amber Wood, Vetiver, White Musk",
+                gender: "Unisex",
+                officeWear: "Highly office-friendly. Herbal sage and crisp lavender create a clean, professional, well-balanced aura when lightly applied.",
+                salonSettings: "Fits modern salons, barbershops, daytime casual outings, and evening gatherings.",
+                bestFor: "Year-round wear, daytime and evening settings",
+                vibe: "Bold, aromatic, warm-spicy, sophisticated",
+                price: "R 295.00 ZAR",
+                scent_experience: "Opens with an invigorating, fresh herbal burst of bergamot, rosemary, and clary sage. The heart introduces a warm, aromatic blend of lavender and exotic black cardamom lifted by soft orange blossom. Settles into a smooth, comforting base of rich amber wood, earthy vetiver, sweet vanilla, and clean white musk."
             },
             {
                 id: 6,
@@ -475,7 +698,17 @@
                 themeClass: "theme-summer",
                 badgeClass: "badge-summer",
                 tags: ["Summer"],
-                sprays: { summer: "2-3", winter: "3-4", springAutumn: "3-4" }
+                sprays: { summer: "2-3", winter: "3-4", springAutumn: "3-4" },
+                topNotes: "Sea Salt, Mineral Notes, Citrus",
+                middleNotes: "Seaweed, Aquatic Accord, Salty Elements",
+                baseNotes: "Metallic Woods, Ambroxan, Musk",
+                gender: "Unisex",
+                officeWear: "Office-friendly for creative or casual workplaces.",
+                salonSettings: "Perfect for modern, edgy settings and coastal casual.",
+                bestFor: "Peak summer, especially in coastal areas",
+                vibe: "Salty, oceanic, fresh, unique, metallic",
+                price: "R 275.00 ZAR",
+                scent_experience: "Opens with intense sea salt and mineral notes. Heart develops seaweed and salty aquatic accords. Base settles into metallic woods with ambroxan."
             },
             {
                 id: 7,
@@ -489,7 +722,17 @@
                 themeClass: "theme-spring-autumn",
                 badgeClass: "badge-spring-autumn",
                 tags: ["SpringAutumn"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Hibiscus, Cassis, Blackcurrant",
+                middleNotes: "Floral Accord, Peony, Rose",
+                baseNotes: "Soft Leather, Musk, Woody Notes",
+                gender: "Unisex",
+                officeWear: "Office-friendly with soft florals.",
+                salonSettings: "Great for elegant and upscale settings.",
+                bestFor: "Spring and Autumn wear",
+                vibe: "Floral, juicy, warm, slightly edgy",
+                price: "R 280.00 ZAR",
+                scent_experience: "Opens with vibrant hibiscus and juicy cassis. Heart blooms with soft florals. Base reveals warm leather and woody notes."
             },
             {
                 id: 8,
@@ -503,7 +746,17 @@
                 themeClass: "theme-year-round",
                 badgeClass: "badge-year-round",
                 tags: ["Year-Round", "Summer"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Bergamot, Citrus, Grapefruit",
+                middleNotes: "Ambroxan, Aquatic Accord, Bubblegum",
+                baseNotes: "Ambroxan, Musk, Woody Notes",
+                gender: "Unisex",
+                officeWear: "Office-friendly. Sweet but not overwhelming.",
+                salonSettings: "Perfect for casual outings and night out.",
+                bestFor: "Year-round, casual and evening wear",
+                vibe: "Sweet, fruity, aquatic, fun, youthful",
+                price: "R 270.00 ZAR",
+                scent_experience: "Bursts open with sweet citrus and bergamot. Heart develops fresh ambroxan and bubblegum aquatic notes. Base settles into warm musk."
             },
             {
                 id: 9,
@@ -517,7 +770,17 @@
                 themeClass: "theme-summer",
                 badgeClass: "badge-summer",
                 tags: ["SpringAutumn", "Summer"],
-                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Grapefruit, Mandarin, Bergamot",
+                middleNotes: "Citrus Cocktail, Geranium, Spices",
+                baseNotes: "Vetiver, Cedarwood, Woody Notes",
+                gender: "Unisex",
+                officeWear: "Very office-friendly. Fresh and energetic.",
+                salonSettings: "Great for modern and creative settings.",
+                bestFor: "Summer and warm daytime wear",
+                vibe: "Fresh, zesty, citrusy, sophisticated",
+                price: "R 285.00 ZAR",
+                scent_experience: "Opens with bright, zesty citrus cocktail. Heart develops spiced geranium and citrus notes. Base reveals earthy vetiver and cedarwood."
             },
             {
                 id: 10,
@@ -531,7 +794,17 @@
                 themeClass: "theme-year-round",
                 badgeClass: "badge-year-round",
                 tags: ["Year-Round", "Winter"],
-                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" },
+                topNotes: "Bergamot, Star Anise, Cinnamon",
+                middleNotes: "Leather Accord, Nutmeg, Spices",
+                baseNotes: "Tonka Bean, Vanilla, Amber",
+                gender: "Unisex",
+                officeWear: "Office-friendly. Warm and professional.",
+                salonSettings: "Perfect for evening and cool weather settings.",
+                bestFor: "Year-round, evening and cool weather wear",
+                vibe: "Aromatic, warm, spicy, leathery, smooth",
+                price: "R 280.00 ZAR",
+                scent_experience: "Opens with aromatic star anise and cinnamon. Heart develops leather and spiced notes. Base settles into smooth tonka bean and warm amber."
             }
         ];
 
@@ -599,9 +872,106 @@
                             <span class="count">${item.sprays.winter} sprays</span>
                         </div>
                     </div>
+                    <div class="card-actions">
+                        <button class="btn-details" onclick="viewDetails(${item.id})">View Details</button>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        function viewDetails(id) {
+            const fragrance = fragrances.find(f => f.id === id);
+            if (!fragrance) return;
+
+            document.getElementById('gridView').classList.remove('active');
+            document.getElementById('detailView').classList.add('active');
+            document.getElementById('detailTitle').textContent = fragrance.name;
+
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <div style="margin-bottom: 2rem;">
+                    <span style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">${fragrance.brand}</span>
+                    <p style="font-size: 1.1rem; margin: 0.5rem 0; color: var(--text-primary);">${fragrance.bottleSize} • ${fragrance.concentration}</p>
+                </div>
+
+                <h3>🎯 Olfactory Profile</h3>
+                <div class="notes-grid">
+                    <div class="note-card">
+                        <h4>Top Notes</h4>
+                        <p>${fragrance.topNotes}</p>
+                    </div>
+                    <div class="note-card">
+                        <h4>Middle Notes</h4>
+                        <p>${fragrance.middleNotes}</p>
+                    </div>
+                    <div class="note-card">
+                        <h4>Base Notes</h4>
+                        <p>${fragrance.baseNotes}</p>
+                    </div>
+                </div>
+
+                <h3>👃 Scent Experience</h3>
+                <p style="line-height: 1.6; color: var(--text-secondary);">${fragrance.scent_experience}</p>
+
+                <h3>📋 Key Details</h3>
+                <div class="grid-list">
+                    <div class="gird-list-item">
+                        <strong>Gender</strong>
+                        <span>${fragrance.gender}</span>
+                    </div>
+                    <div class="gird-list-item">
+                        <strong>Best For</strong>
+                        <span>${fragrance.bestFor}</span>
+                    </div>
+                    <div class="gird-list-item">
+                        <strong>Vibe</strong>
+                        <span>${fragrance.vibe}</span>
+                    </div>
+                    <div class="gird-list-item">
+                        <strong>Inspired By</strong>
+                        <span>${fragrance.inspiredBy}</span>
+                    </div>
+                </div>
+
+                <h3>💼 Office Wear</h3>
+                <p style="line-height: 1.6; color: var(--text-secondary); background-color: rgba(56, 189, 248, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid #38bdf8;">
+                    ${fragrance.officeWear}
+                </p>
+
+                <h3>🎭 Salon / Casual Settings</h3>
+                <p style="line-height: 1.6; color: var(--text-secondary); background-color: rgba(245, 158, 11, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--color-summer);">
+                    ${fragrance.salonSettings}
+                </p>
+
+                <h3>⏰ Seasonal Usage</h3>
+                <div class="grid-list">
+                    <div class="gird-list-item">
+                        <strong>☀️ Summer (Dec–Feb)</strong>
+                        <span>${fragrance.sprays.summer} sprays</span>
+                    </div>
+                    <div class="gird-list-item">
+                        <strong>🍂 Spring/Autumn (Sep–Nov / Mar–May)</strong>
+                        <span>${fragrance.sprays.springAutumn} sprays</span>
+                    </div>
+                    <div class="gird-list-item">
+                        <strong>❄️ Winter (Jun–Aug)</strong>
+                        <span>${fragrance.sprays.winter} sprays</span>
+                    </div>
+                </div>
+
+                <div class="price-tag">
+                    💰 Current Price: ${fragrance.price}
+                </div>
+            `;
+
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.getElementById('gridView').classList.add('active');
+            document.getElementById('detailView').classList.remove('active');
+            window.scrollTo(0, 0);
         }
 
         function sortFragrances(items) {
