@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragrance World SA Collection Hub</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            
+            /* South African Season Colors */
+            --color-summer: #f59e0b;       /* Dec - Feb */
+            --color-spring-autumn: #ea580c;/* Sep - Nov & Mar - May */
+            --color-winter: #2563eb;       /* Jun - Aug */
+            --color-year-round: #10b981;   /* All Year */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 2rem auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            width: 100%;
+            max-width: 400px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #38bdf8;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn:hover, .btn.active {
+            font-weight: bold;
+        }
+
+        /* Color-coded filter button active states */
+        .btn[data-category="All"].active { background-color: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+        .btn[data-category="Summer"].active { background-color: var(--color-summer); color: #0f172a; border-color: var(--color-summer); }
+        .btn[data-category="Winter"].active { background-color: var(--color-winter); color: #ffffff; border-color: var(--color-winter); }
+        .btn[data-category="SpringAutumn"].active { background-color: var(--color-spring-autumn); color: #ffffff; border-color: var(--color-spring-autumn); }
+        .btn[data-category="Year-Round"].active { background-color: var(--color-year-round); color: #0f172a; border-color: var(--color-year-round); }
+
+        .fragrance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top border accent line matching primary season */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .card.theme-summer::before { background-color: var(--color-summer); }
+        .card.theme-winter::before { background-color: var(--color-winter); }
+        .card.theme-spring-autumn::before { background-color: var(--color-spring-autumn); }
+        .card.theme-year-round::before { background-color: var(--color-year-round); }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .card-header {
+            margin-bottom: 0.8rem;
+        }
+
+        .brand {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .size-tag {
+            background-color: var(--border-color);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .clone-info {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+        }
+
+        .profile {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        /* Color-coded Versatility Badges */
+        .versatility-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .badge-summer { background-color: rgba(245, 158, 11, 0.15); color: var(--color-summer); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-winter { background-color: rgba(37, 99, 235, 0.15); color: var(--color-winter); border: 1px solid rgba(37, 99, 235, 0.3); }
+        .badge-spring-autumn { background-color: rgba(234, 88, 12, 0.15); color: var(--color-spring-autumn); border: 1px solid rgba(234, 88, 12, 0.3); }
+        .badge-year-round { background-color: rgba(16, 185, 129, 0.15); color: var(--color-year-round); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .spray-guides {
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.8rem;
+            margin-top: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            text-align: center;
+        }
+
+        .spray-item {
+            background-color: rgba(0, 0, 0, 0.25);
+            padding: 0.5rem 0.25rem;
+            border-radius: 6px;
+        }
+
+        .spray-item .season {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            display: block;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        /* Color-coded spray column headers with SA month hints */
+        .season-summer { color: var(--color-summer); }
+        .season-spring-autumn { color: var(--color-spring-autumn); }
+        .season-winter { color: var(--color-winter); }
+
+        .spray-item .count {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 3rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Fragrance World SA Database</h1>
+        <p class="subtitle">Categorized for Southern Hemisphere seasons & climate conditions</p>
+        
+        <div class="controls">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search by name, clone, or scent notes...">
+            <div class="filter-buttons">
+                <button class="btn active" data-category="All" onclick="filterCategory('All', this)">All Scents</button>
+                <button class="btn" data-category="Summer" onclick="filterCategory('Summer', this)">☀️ Summer (Dec–Feb)</button>
+                <button class="btn" data-category="SpringAutumn" onclick="filterCategory('SpringAutumn', this)">🍂 Spring & Autumn (Sep–Nov / Mar–May)</button>
+                <button class="btn" data-category="Winter" onclick="filterCategory('Winter', this)">❄️ Winter (Jun–Aug)</button>
+                <button class="btn" data-category="Year-Round" onclick="filterCategory('Year-Round', this)">🔄 SA Year-Round</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="fragrance-grid" id="fragranceGrid"></main>
+
+    <script>
+        const fragrances = [
+            {
+                id: 1,
+                brand: "Lattafa",
+                name: "Lail Maleki Moroccan Blue",
+                bottleSize: "N/A",
+                concentration: "EDP",
+                inspiredBy: "Versace Dylan Blue",
+                mainProfile: "Aquatic blue, citrus, ambroxan, light incense",
+                versatility: "SA Year-Round / Daily Signature",
+                themeClass: "theme-year-round",
+                badgeClass: "badge-year-round",
+                tags: ["Year-Round", "Summer", "SpringAutumn"],
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 2,
+                brand: "Fragrance World",
+                name: "Imaginari",
+                bottleSize: "100ml",
+                concentration: "EDP",
+                inspiredBy: "Louis Vuitton L'Immensité",
+                mainProfile: "Bright grapefruit, fresh ginger, warm amber",
+                versatility: "Spring, Autumn & Summer",
+                themeClass: "theme-summer",
+                badgeClass: "badge-summer",
+                tags: ["SpringAutumn", "Summer"],
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 3,
+                brand: "Fragrance World",
+                name: "Brown Orchid Blanc Edition",
+                bottleSize: "80ml",
+                concentration: "EDP",
+                inspiredBy: "Creed Silver Mountain Water",
+                mainProfile: "Crisp green tea, blackcurrant, white musk",
+                versatility: "Summer & Warm Spring/Autumn",
+                themeClass: "theme-summer",
+                badgeClass: "badge-summer",
+                tags: ["SpringAutumn", "Summer"],
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 4,
+                brand: "Fragrance World",
+                name: "Brown Orchid Sapphire",
+                bottleSize: "80ml",
+                concentration: "EDP",
+                inspiredBy: "Calvin Klein Eternity / Clean Blue",
+                mainProfile: "Clean aromatic aquatic notes, light cedar",
+                versatility: "Summer & Daytime Warmth",
+                themeClass: "theme-summer",
+                badgeClass: "badge-summer",
+                tags: ["SpringAutumn", "Summer"],
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 5,
+                brand: "Fragrance World",
+                name: "Intense Noir Le Parfum",
+                bottleSize: "100ml",
+                concentration: "Parfum",
+                inspiredBy: "JPG Le Male Le Parfum / Creed Aventus",
+                mainProfile: "Pineapple, smoky amber, cardamom, lavender, vanilla",
+                versatility: "Year-Round (Best in Cold/Evenings)",
+                themeClass: "theme-year-round",
+                badgeClass: "badge-year-round",
+                tags: ["Year-Round", "Winter", "SpringAutumn"],
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 6,
+                brand: "Fragrance World",
+                name: "Aqua Pura",
+                bottleSize: "70ml",
+                concentration: "EDP",
+                inspiredBy: "Orto Parisi Megamare",
+                mainProfile: "Intense ocean salt, seaweed, metallic woods",
+                versatility: "Peak Summer / Coastal High Heat",
+                themeClass: "theme-summer",
+                badgeClass: "badge-summer",
+                tags: ["Summer"],
+                sprays: { summer: "2-3", winter: "3-4", springAutumn: "3-4" }
+            },
+            {
+                id: 7,
+                brand: "Fragrance World",
+                name: "Hibiscus Magic",
+                bottleSize: "80ml",
+                concentration: "EDP",
+                inspiredBy: "Maison Crivelli Hibiscus Mahajád",
+                mainProfile: "Hibiscus floral, juicy cassis, soft leather",
+                versatility: "Spring & Autumn Focus",
+                themeClass: "theme-spring-autumn",
+                badgeClass: "badge-spring-autumn",
+                tags: ["SpringAutumn"],
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 8,
+                brand: "Fragrance World",
+                name: "Hayaati Beau",
+                bottleSize: "100ml",
+                concentration: "EDP",
+                inspiredBy: "Lattafa Hayaati / Invictus style",
+                mainProfile: "Sweet citrus, fresh ambergris, bubblegum aquatic",
+                versatility: "SA Year-Round / Casual & Night Out",
+                themeClass: "theme-year-round",
+                badgeClass: "badge-year-round",
+                tags: ["Year-Round", "Summer"],
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 9,
+                brand: "Fragrance World",
+                name: "Imperium",
+                bottleSize: "100ml",
+                concentration: "EDP",
+                inspiredBy: "Roja Parfums Elysium",
+                mainProfile: "Zesty citrus cocktail, vetiver, cedarwood",
+                versatility: "Summer & Warm Daytime",
+                themeClass: "theme-summer",
+                badgeClass: "badge-summer",
+                tags: ["SpringAutumn", "Summer"],
+                sprays: { summer: "3-4", winter: "4-5", springAutumn: "3-4" }
+            },
+            {
+                id: 10,
+                brand: "Fragrance World",
+                name: "Inizio For Him",
+                bottleSize: "100ml",
+                concentration: "EDP",
+                inspiredBy: "Armani Code / Classic Aromatic",
+                mainProfile: "Star anise, leather, smooth tonka bean",
+                versatility: "SA Year-Round / Evening & Cool Days",
+                themeClass: "theme-year-round",
+                badgeClass: "badge-year-round",
+                tags: ["Year-Round", "Winter"],
+                sprays: { summer: "2-3", winter: "4-5", springAutumn: "3-4" }
+            }
+        ];
+
+        let activeCategory = 'All';
+        let searchQuery = '';
+
+        function renderFragrances() {
+            const grid = document.getElementById('fragranceGrid');
+            grid.innerHTML = '';
+
+            const filtered = fragrances.filter(item => {
+                const matchesCategory = activeCategory === 'All' || item.tags.includes(activeCategory);
+                const query = searchQuery.toLowerCase();
+                const matchesSearch = item.name.toLowerCase().includes(query) ||
+                                      item.inspiredBy.toLowerCase().includes(query) ||
+                                      item.mainProfile.toLowerCase().includes(query) ||
+                                      item.brand.toLowerCase().includes(query);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="no-results">No fragrances match your search criteria.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `card ${item.themeClass}`;
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="brand">${item.brand}</span>
+                            <div class="title-row">
+                                <h2 class="name">${item.name}</h2>
+                                <span class="size-tag">${item.bottleSize} · ${item.concentration}</span>
+                            </div>
+                        </div>
+                        <div class="clone-info">Inspired by: <strong>${item.inspiredBy}</strong></div>
+                        <div class="versatility-badge ${item.badgeClass}">${item.versatility}</div>
+                        <div class="profile">${item.mainProfile}</div>
+                    </div>
+                    <div class="spray-guides">
+                        <div class="spray-item">
+                            <span class="season season-summer">Summer<br><small>(Dec–Feb)</small></span>
+                            <span class="count">${item.sprays.summer} sprays</span>
+                        </div>
+                        <div class="spray-item">
+                            <span class="season season-spring-autumn">Spring / Autumn<br><small>(Sep–Nov / Mar–May)</small></span>
+                            <span class="count">${item.sprays.springAutumn} sprays</span>
+                        </div>
+                        <div class="spray-item">
+                            <span class="season season-winter">Winter<br><small>(Jun–Aug)</small></span>
+                            <span class="count">${item.sprays.winter} sprays</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category, button) {
+            activeCategory = category;
+            document.querySelectorAll('.filter-buttons .btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            renderFragrances();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderFragrances();
+        });
+
+        renderFragrances();
+    </script>
+</body>
+</html>
