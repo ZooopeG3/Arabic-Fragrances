@@ -34,7 +34,7 @@
         }
 
         header {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto 2rem auto;
             text-align: center;
         }
@@ -51,13 +51,18 @@
             font-size: 0.95rem;
         }
 
+        .controls-container {
+            max-width: 1400px;
+            margin: 0 auto 2rem auto;
+        }
+
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
             justify-content: center;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .search-box {
@@ -76,11 +81,36 @@
             border-color: #38bdf8;
         }
 
+        .filter-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
         .filter-buttons {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-start;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
         .btn {
@@ -105,11 +135,39 @@
         .btn[data-category="SpringAutumn"].active { background-color: var(--color-spring-autumn); color: #ffffff; border-color: var(--color-spring-autumn); }
         .btn[data-category="Year-Round"].active { background-color: var(--color-year-round); color: #0f172a; border-color: var(--color-year-round); }
 
+        /* Concentration filter */
+        .btn[data-concentration="EDP"].active { background-color: #8b5cf6; color: #ffffff; border-color: #8b5cf6; }
+        .btn[data-concentration="Parfum"].active { background-color: #ec4899; color: #ffffff; border-color: #ec4899; }
+        .btn[data-concentration="EDT"].active { background-color: #06b6d4; color: #0f172a; border-color: #06b6d4; }
+
+        /* Brand filter */
+        .btn[data-brand].active { background-color: #f59e0b; color: #0f172a; border-color: #f59e0b; }
+
+        .select-dropdown {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .select-dropdown:focus {
+            border-color: #38bdf8;
+        }
+
+        .select-dropdown option {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+
         .fragrance-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -177,6 +235,16 @@
             padding: 0.2rem 0.5rem;
             border-radius: 4px;
             white-space: nowrap;
+        }
+
+        .concentration-badge {
+            display: inline-block;
+            background-color: var(--border-color);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            font-weight: 600;
         }
 
         .clone-info {
@@ -249,6 +317,13 @@
             padding: 3rem;
             font-size: 1.1rem;
         }
+
+        .results-info {
+            max-width: 1400px;
+            margin: 0 auto 1rem auto;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -256,19 +331,64 @@
     <header>
         <h1>Fragrance World SA Database</h1>
         <p class="subtitle">Categorized for Southern Hemisphere seasons & climate conditions</p>
-        
-        <div class="controls">
-            <input type="text" id="searchInput" class="search-box" placeholder="Search by name, clone, or scent notes...">
-            <div class="filter-buttons">
-                <button class="btn active" data-category="All" onclick="filterCategory('All', this)">All Scents</button>
-                <button class="btn" data-category="Summer" onclick="filterCategory('Summer', this)">☀️ Summer (Dec–Feb)</button>
-                <button class="btn" data-category="SpringAutumn" onclick="filterCategory('SpringAutumn', this)">🍂 Spring & Autumn (Sep–Nov / Mar–May)</button>
-                <button class="btn" data-category="Winter" onclick="filterCategory('Winter', this)">❄️ Winter (Jun–Aug)</button>
-                <button class="btn" data-category="Year-Round" onclick="filterCategory('Year-Round', this)">🔄 SA Year-Round</button>
-            </div>
-        </div>
     </header>
 
+    <div class="controls-container">
+        <div class="controls">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search by name, clone, or scent notes...">
+        </div>
+
+        <!-- Season Filter -->
+        <div class="filter-section">
+            <span class="filter-section-title">🌍 Season Filter</span>
+            <div class="filter-buttons">
+                <button class="btn active" data-category="All" onclick="filterCategory('All', this)">All Seasons</button>
+                <button class="btn" data-category="Summer" onclick="filterCategory('Summer', this)">☀️ Summer (Dec–Feb)</button>
+                <button class="btn" data-category="SpringAutumn" onclick="filterCategory('SpringAutumn', this)">🍂 Spring & Autumn</button>
+                <button class="btn" data-category="Winter" onclick="filterCategory('Winter', this)">❄️ Winter (Jun–Aug)</button>
+                <button class="btn" data-category="Year-Round" onclick="filterCategory('Year-Round', this)">🔄 Year-Round</button>
+            </div>
+        </div>
+
+        <!-- Concentration & Brand Filter -->
+        <div class="filter-section">
+            <div class="filter-row">
+                <div>
+                    <span class="filter-section-title">💎 Concentration</span>
+                    <div class="filter-buttons">
+                        <button class="btn active" data-concentration="All" onclick="filterConcentration('All', this)">All Types</button>
+                        <button class="btn" data-concentration="EDP" onclick="filterConcentration('EDP', this)">EDP</button>
+                        <button class="btn" data-concentration="Parfum" onclick="filterConcentration('Parfum', this)">Parfum</button>
+                        <button class="btn" data-concentration="EDT" onclick="filterConcentration('EDT', this)">EDT</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="filter-section-title">🏷️ Brand</span>
+                    <div class="filter-buttons">
+                        <button class="btn active" data-brand="All" onclick="filterBrand('All', this)">All Brands</button>
+                        <button class="btn" data-brand="Fragrance World" onclick="filterBrand('Fragrance World', this)">Fragrance World</button>
+                        <button class="btn" data-brand="Lattafa" onclick="filterBrand('Lattafa', this)">Lattafa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sorting -->
+        <div class="filter-section">
+            <span class="filter-section-title">📊 Sort By</span>
+            <div class="filter-buttons">
+                <select id="sortBy" class="select-dropdown" onchange="updateSort()">
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="brand-asc">Brand (A-Z)</option>
+                    <option value="concentration">Concentration (Highest First)</option>
+                    <option value="newest">Newest Added</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="results-info" id="resultsInfo"></div>
     <main class="fragrance-grid" id="fragranceGrid"></main>
 
     <script>
@@ -416,21 +536,33 @@
         ];
 
         let activeCategory = 'All';
+        let activeConcentration = 'All';
+        let activeBrand = 'All';
         let searchQuery = '';
+        let sortBy = 'name-asc';
 
         function renderFragrances() {
             const grid = document.getElementById('fragranceGrid');
+            const resultsInfo = document.getElementById('resultsInfo');
             grid.innerHTML = '';
 
-            const filtered = fragrances.filter(item => {
+            let filtered = fragrances.filter(item => {
                 const matchesCategory = activeCategory === 'All' || item.tags.includes(activeCategory);
+                const matchesConcentration = activeConcentration === 'All' || item.concentration === activeConcentration;
+                const matchesBrand = activeBrand === 'All' || item.brand === activeBrand;
                 const query = searchQuery.toLowerCase();
                 const matchesSearch = item.name.toLowerCase().includes(query) ||
                                       item.inspiredBy.toLowerCase().includes(query) ||
                                       item.mainProfile.toLowerCase().includes(query) ||
                                       item.brand.toLowerCase().includes(query);
-                return matchesCategory && matchesSearch;
+                return matchesCategory && matchesConcentration && matchesBrand && matchesSearch;
             });
+
+            // Apply sorting
+            filtered = sortFragrances(filtered);
+
+            // Update results info
+            resultsInfo.textContent = `Showing ${filtered.length} fragrance${filtered.length !== 1 ? 's' : ''}`;
 
             if (filtered.length === 0) {
                 grid.innerHTML = `<div class="no-results">No fragrances match your search criteria.</div>`;
@@ -446,7 +578,7 @@
                             <span class="brand">${item.brand}</span>
                             <div class="title-row">
                                 <h2 class="name">${item.name}</h2>
-                                <span class="size-tag">${item.bottleSize} · ${item.concentration}</span>
+                                <span class="size-tag">${item.bottleSize} · <span class="concentration-badge">${item.concentration}</span></span>
                             </div>
                         </div>
                         <div class="clone-info">Inspired by: <strong>${item.inspiredBy}</strong></div>
@@ -472,10 +604,52 @@
             });
         }
 
+        function sortFragrances(items) {
+            const sorted = [...items];
+            switch(sortBy) {
+                case 'name-asc':
+                    sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    sorted.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+                case 'brand-asc':
+                    sorted.sort((a, b) => a.brand.localeCompare(b.brand) || a.name.localeCompare(b.name));
+                    break;
+                case 'concentration':
+                    const concentrationOrder = { 'Parfum': 0, 'EDP': 1, 'EDT': 2 };
+                    sorted.sort((a, b) => (concentrationOrder[a.concentration] || 3) - (concentrationOrder[b.concentration] || 3));
+                    break;
+                case 'newest':
+                    sorted.reverse();
+                    break;
+            }
+            return sorted;
+        }
+
         function filterCategory(category, button) {
             activeCategory = category;
-            document.querySelectorAll('.filter-buttons .btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('[data-category]').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
+            renderFragrances();
+        }
+
+        function filterConcentration(concentration, button) {
+            activeConcentration = concentration;
+            document.querySelectorAll('[data-concentration]').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            renderFragrances();
+        }
+
+        function filterBrand(brand, button) {
+            activeBrand = brand;
+            document.querySelectorAll('[data-brand]').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            renderFragrances();
+        }
+
+        function updateSort() {
+            sortBy = document.getElementById('sortBy').value;
             renderFragrances();
         }
 
