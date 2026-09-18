@@ -3,769 +3,853 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fragrance World SA Collection Hub</title>
+    <title>Arabic Fragrances - Luxury Collection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-color: #334155;
+            /* Luxury color palette - warm golds, deep jewel tones, premium blacks */
+            --primary-gold: #d4af37;
+            --primary-dark: #0f0e0c;
+            --secondary-burgundy: #8b4757;
+            --accent-champagne: #f4e4c1;
+            --text-primary: #1a1a1a;
+            --text-light: #6b6b6b;
+            --border-light: #e8e8e8;
+            --success: #27ae60;
+            --warning: #f39c12;
             
-            /* South African Season Colors */
-            --color-summer: #f59e0b;       /* Dec - Feb */
-            --color-spring-autumn: #ea580c;/* Sep - Nov & Mar - May */
-            --color-winter: #2563eb;       /* Jun - Aug */
-            --color-year-round: #10b981;   /* All Year */
+            /* Season colors - refined */
+            --summer: #e8b944;
+            --autumn: #c97a44;
+            --winter: #4a7c9e;
+            --year-round: #6b8e6b;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-color);
+            font-family: 'Georgia', 'Garamond', serif;
+            background: #faf8f5;
             color: var(--text-primary);
-            padding: 2rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
+        /* Header Section */
         header {
-            max-width: 1400px;
-            margin: 0 auto 2rem auto;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1a1a 100%);
+            color: var(--accent-champagne);
+            padding: 4rem 2rem;
             text-align: center;
+            border-bottom: 3px solid var(--primary-gold);
         }
 
         h1 {
-            font-size: 2.2rem;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        p.subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .controls-container {
-            max-width: 1400px;
-            margin: 0 auto 2rem auto;
-        }
-
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-box {
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            font-size: 1rem;
-            width: 100%;
-            max-width: 400px;
-            outline: none;
-        }
-
-        .search-box:focus {
-            border-color: #38bdf8;
-        }
-
-        .filter-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .filter-section-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
             text-transform: uppercase;
-            margin-bottom: 0.75rem;
-            display: block;
         }
 
-        .filter-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-        }
-
-        .filter-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            padding: 0.6rem 1.1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.85rem;
-        }
-
-        .btn:hover, .btn.active {
-            font-weight: bold;
-        }
-
-        .btn-details {
-            background-color: #38bdf8;
-            color: #0f172a;
-            border: 1px solid #38bdf8;
-            padding: 0.6rem 1.1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-details:hover {
-            background-color: #06b6d4;
-            border-color: #06b6d4;
-        }
-
-        /* Color-coded filter button active states */
-        .btn[data-category="All"].active { background-color: #38bdf8; color: #0f172a; border-color: #38bdf8; }
-        .btn[data-category="Summer"].active { background-color: var(--color-summer); color: #0f172a; border-color: var(--color-summer); }
-        .btn[data-category="Winter"].active { background-color: var(--color-winter); color: #ffffff; border-color: var(--color-winter); }
-        .btn[data-category="SpringAutumn"].active { background-color: var(--color-spring-autumn); color: #ffffff; border-color: var(--color-spring-autumn); }
-        .btn[data-category="Year-Round"].active { background-color: var(--color-year-round); color: #0f172a; border-color: var(--color-year-round); }
-
-        /* Concentration filter */
-        .btn[data-concentration="EDP"].active { background-color: #8b5cf6; color: #ffffff; border-color: #8b5cf6; }
-        .btn[data-concentration="Parfum"].active { background-color: #ec4899; color: #ffffff; border-color: #ec4899; }
-        .btn[data-concentration="EDT"].active { background-color: #06b6d4; color: #0f172a; border-color: #06b6d4; }
-
-        /* Brand filter */
-        .btn[data-brand].active { background-color: #f59e0b; color: #0f172a; border-color: #f59e0b; }
-
-        .select-dropdown {
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .select-dropdown:focus {
-            border-color: #38bdf8;
-        }
-
-        .select-dropdown option {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-        }
-
-        .fragrance-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Top border accent line matching primary season */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-        }
-
-        .card.theme-summer::before { background-color: var(--color-summer); }
-        .card.theme-winter::before { background-color: var(--color-winter); }
-        .card.theme-spring-autumn::before { background-color: var(--color-spring-autumn); }
-        .card.theme-year-round::before { background-color: var(--color-year-round); }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .card-header {
-            margin-bottom: 0.8rem;
-        }
-
-        .brand {
-            font-size: 0.75rem;
-            text-transform: uppercase;
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
             letter-spacing: 1px;
-            color: var(--text-secondary);
-            font-weight: bold;
-        }
-
-        .title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 0.5rem;
-            margin-top: 0.25rem;
-        }
-
-        .name {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .size-tag {
-            background-color: var(--border-color);
-            font-size: 0.75rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        .concentration-badge {
-            display: inline-block;
-            background-color: var(--border-color);
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            margin-left: 0.5rem;
-            font-weight: 600;
-        }
-
-        .clone-info {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 0.8rem;
+            opacity: 0.85;
             font-style: italic;
         }
 
-        .profile {
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+        .tagline {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
         }
 
-        /* Color-coded Versatility Badges */
-        .versatility-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .badge-summer { background-color: rgba(245, 158, 11, 0.15); color: var(--color-summer); border: 1px solid rgba(245, 158, 11, 0.3); }
-        .badge-winter { background-color: rgba(37, 99, 235, 0.15); color: var(--color-winter); border: 1px solid rgba(37, 99, 235, 0.3); }
-        .badge-spring-autumn { background-color: rgba(234, 88, 12, 0.15); color: var(--color-spring-autumn); border: 1px solid rgba(234, 88, 12, 0.3); }
-        .badge-year-round { background-color: rgba(16, 185, 129, 0.15); color: var(--color-year-round); border: 1px solid rgba(16, 185, 129, 0.3); }
-
-        .spray-guides {
-            border-top: 1px solid var(--border-color);
-            padding-top: 0.8rem;
-            margin-top: auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.4rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .spray-item {
-            background-color: rgba(0, 0, 0, 0.25);
-            padding: 0.5rem 0.25rem;
-            border-radius: 6px;
-        }
-
-        .spray-item .season {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            display: block;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        /* Color-coded spray column headers with SA month hints */
-        .season-summer { color: var(--color-summer); }
-        .season-spring-autumn { color: var(--color-spring-autumn); }
-        .season-winter { color: var(--color-winter); }
-
-        .spray-item .count {
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-        }
-
-        .no-results {
-            grid-column: 1 / -1;
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 3rem;
-            font-size: 1.1rem;
-        }
-
-        .results-info {
-            max-width: 1400px;
-            margin: 0 auto 1rem auto;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Detail Page Styles */
-        .detail-page {
-            display: none;
-            max-width: 1000px;
+        /* Container */
+        .container {
+            max-width: 1600px;
             margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        .detail-page.active {
-            display: block;
+        /* Controls Section */
+        .controls-section {
+            background: white;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary-gold);
         }
 
-        .detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .search-container {
             margin-bottom: 2rem;
         }
 
-        .back-btn {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            padding: 0.6rem 1.2rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .back-btn:hover {
-            border-color: #38bdf8;
-            color: #38bdf8;
-        }
-
-        .detail-content {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-        }
-
-        .detail-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .detail-content h3 {
-            font-size: 1.2rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.8rem;
-            color: #38bdf8;
-        }
-
-        .detail-content ul {
-            list-style: none;
-            padding-left: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .detail-content li {
-            padding: 0.4rem 0;
-            color: var(--text-primary);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .detail-content li:last-child {
-            border-bottom: none;
-        }
-
-        .detail-content li strong {
-            color: #38bdf8;
-        }
-
-        .notes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .note-card {
-            background-color: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .note-card h4 {
-            color: #38bdf8;
-            margin-bottom: 0.8rem;
-            font-size: 1rem;
-        }
-
-        .note-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .price-tag {
-            background-color: rgba(16, 185, 129, 0.15);
-            color: var(--color-year-round);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .search-input {
+            width: 100%;
             padding: 1rem;
-            border-radius: 8px;
-            margin-top: 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 2px;
+            font-family: 'Segoe UI', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .grid-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .filter-group {
             margin-bottom: 1.5rem;
         }
 
-        .gird-list-item {
-            background-color: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 8px;
+        .filter-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .gird-list-item strong {
-            color: #38bdf8;
-            display: block;
+        .filter-dropdown {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 2px;
+            background: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2rem;
+        }
+
+        .filter-dropdown:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .filter-dropdown:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .filter-dropdown option {
+            padding: 0.5rem;
+            background: white;
+            color: var(--text-primary);
+        }
+
+        .filter-dropdown option:hover {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* Price Range Slider */
+        .price-range-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .price-input {
+            padding: 0.6rem;
+            border: 2px solid var(--border-light);
+            border-radius: 2px;
+            width: 120px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .price-slider {
+            flex: 1;
+            min-width: 200px;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, var(--primary-gold), var(--primary-gold));
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .price-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .price-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Sort Section */
+        .sort-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .sort-select {
+            padding: 0.7rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 2px;
+            background: white;
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .stats {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Fragrance Grid */
+        .fragrances-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        /* Premium Card Design */
+        .fragrance-card {
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fragrance-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(212, 175, 55, 0.15);
+            border-color: var(--primary-gold);
+        }
+
+        /* Card Header */
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1a1a 100%);
+            padding: 1.5rem;
+            color: var(--accent-champagne);
+            position: relative;
+            border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .card-brand {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+        }
+
+        .card-name {
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
             margin-bottom: 0.5rem;
         }
 
-        .gird-list-item span {
-            color: var(--text-secondary);
+        .card-price {
+            font-size: 1.3rem;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            color: var(--primary-gold);
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent-champagne);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+            color: var(--primary-gold);
+        }
+
+        .favorite-btn.saved {
+            color: var(--primary-gold);
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .card-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--border-light);
+            font-family: 'Segoe UI', sans-serif;
             font-size: 0.9rem;
         }
 
-        .loading {
+        .card-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.75rem;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Badges */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .tag-summer {
+            background: rgba(232, 185, 68, 0.15);
+            color: #b8860b;
+        }
+
+        .tag-winter {
+            background: rgba(74, 124, 158, 0.15);
+            color: #4a7c9e;
+        }
+
+        .tag-year-round {
+            background: rgba(107, 142, 107, 0.15);
+            color: #6b8e6b;
+        }
+
+        .tag-autumn {
+            background: rgba(201, 122, 68, 0.15);
+            color: #c97a44;
+        }
+
+        /* Notes Section */
+        .notes-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .notes-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        /* Empty State */
+        .no-results {
+            grid-column: 1 / -1;
             text-align: center;
-            color: var(--text-secondary);
-            padding: 2rem;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .no-results p {
             font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Sidebar for Favorites */
+        .sidebar {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            border-left: 1px solid var(--border-light);
+            box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--primary-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .favorites-list {
+            padding: 1rem;
+        }
+
+        .favorite-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .favorite-info {
+            flex: 1;
+        }
+
+        .favorite-info-brand {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .favorite-info-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .favorite-info-price {
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .remove-favorite-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .remove-favorite-btn:hover {
+            color: #e74c3c;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gold);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+            z-index: 99;
+        }
+
+        .sidebar-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+        }
+
+        .favorite-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary-burgundy);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Filter Grid */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .filter-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .fragrances-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-section {
+                padding: 1.5rem;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sort-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .fragrance-card,
+            .favorite-btn,
+            .sidebar,
+            .sidebar-toggle {
+                transition: none;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Arabian Fragrances</h1>
+        <p class="subtitle">Curated Collection of Middle Eastern Luxury Scents</p>
+        <p class="tagline">Discover authentic aromas for every season and occasion</p>
+    </header>
 
-    <!-- Main Grid View -->
-    <div id="gridView" class="active">
-        <header>
-            <h1>Fragrance World SA Database</h1>
-            <p class="subtitle">Categorized for Southern Hemisphere seasons & climate conditions</p>
-        </header>
-
-        <div class="controls-container">
-            <div class="controls">
-                <input type="text" id="searchInput" class="search-box" placeholder="Search by name, clone, or scent notes...">
+    <div class="container">
+        <div class="controls-section">
+            <!-- Search -->
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search fragrances by name, brand, or notes...">
             </div>
 
-            <!-- Season Filter -->
-            <div class="filter-section">
-                <span class="filter-section-title">🌍 Season Filter</span>
-                <div class="filter-buttons">
-                    <button class="btn active" data-category="All" onclick="filterCategory('All', this)">All Seasons</button>
-                    <button class="btn" data-category="Summer" onclick="filterCategory('Summer', this)">☀️ Summer (Dec–Feb)</button>
-                    <button class="btn" data-category="SpringAutumn" onclick="filterCategory('SpringAutumn', this)">🍂 Spring & Autumn</button>
-                    <button class="btn" data-category="Winter" onclick="filterCategory('Winter', this)">❄️ Winter (Jun–Aug)</button>
-                    <button class="btn" data-category="Year-Round" onclick="filterCategory('Year-Round', this)">🔄 Year-Round</button>
+            <!-- Filters -->
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <div class="filter-title"><i class="fas fa-building"></i> Brand</div>
+                    <select id="brandFilter" class="filter-dropdown" onchange="setDropdownFilter('brand', this.value)">
+                        <option value="all">All Brands</option>
+                    </select>
                 </div>
-            </div>
 
-            <!-- Concentration & Brand Filter -->
-            <div class="filter-section">
-                <div class="filter-row">
-                    <div>
-                        <span class="filter-section-title">💎 Concentration</span>
-                        <div class="filter-buttons">
-                            <button class="btn active" data-concentration="All" onclick="filterConcentration('All', this)">All Types</button>
-                            <button class="btn" data-concentration="EDP" onclick="filterConcentration('EDP', this)">EDP</button>
-                            <button class="btn" data-concentration="Parfum" onclick="filterConcentration('Parfum', this)">Parfum</button>
-                            <button class="btn" data-concentration="EDT" onclick="filterConcentration('EDT', this)">EDT</button>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="filter-section-title">🏷️ Brand</span>
-                        <div class="filter-buttons" id="brandFilters">
-                            <button class="btn active" data-brand="All" onclick="filterBrand('All', this)">All Brands</button>
-                        </div>
-                    </div>
+                <div class="filter-group">
+                    <div class="filter-title"><i class="fas fa-leaf"></i> Season</div>
+                    <select id="seasonFilter" class="filter-dropdown" onchange="setDropdownFilter('season', this.value)">
+                        <option value="all">All Seasons</option>
+                    </select>
                 </div>
-            </div>
 
-            <!-- Sorting -->
-            <div class="filter-section">
-                <span class="filter-section-title">📊 Sort By</span>
-                <div class="filter-buttons">
-                    <select id="sortBy" class="select-dropdown" onchange="updateSort()">
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="name-desc">Name (Z-A)</option>
-                        <option value="brand-asc">Brand (A-Z)</option>
-                        <option value="concentration">Concentration (Highest First)</option>
-                        <option value="newest">Newest Added</option>
+                <div class="filter-group">
+                    <div class="filter-title"><i class="fas fa-droplet"></i> Concentration</div>
+                    <select id="concentrationFilter" class="filter-dropdown" onchange="setDropdownFilter('concentration', this.value)">
+                        <option value="all">All Types</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title"><i class="fas fa-venus-mars"></i> Gender</div>
+                    <select id="genderFilter" class="filter-dropdown" onchange="setDropdownFilter('gender', this.value)">
+                        <option value="all">All Genders</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title"><i class="fas fa-star"></i> Occasion</div>
+                    <select id="occasionFilter" class="filter-dropdown" onchange="setDropdownFilter('occasion', this.value)">
+                        <option value="all">All Occasions</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title"><i class="fas fa-palette"></i> Scent Profile</div>
+                    <select id="profileFilter" class="filter-dropdown" onchange="setDropdownFilter('profile', this.value)">
+                        <option value="all">All Profiles</option>
                     </select>
                 </div>
             </div>
+
+            <div class="filter-group">
+                <div class="filter-title"><i class="fas fa-money-bill"></i> Price Range</div>
+                <div class="price-range-container">
+                    <input type="number" id="minPrice" class="price-input" placeholder="Min" value="0">
+                    <span>-</span>
+                    <input type="number" id="maxPrice" class="price-input" placeholder="Max" value="5000">
+                </div>
+            </div>
+
+            <!-- Sort & Stats -->
+            <div class="sort-container">
+                <div>
+                    <label for="sortBy" style="font-family: 'Segoe UI', sans-serif; font-weight: 600; margin-right: 0.5rem;">Sort by:</label>
+                    <select id="sortBy" class="sort-select">
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="brand-asc">Brand (A-Z)</option>
+                        <option value="concentration">Concentration</option>
+                        <option value="price-asc">Price (Low to High)</option>
+                        <option value="price-desc">Price (High to Low)</option>
+                        <option value="newest">Newest Added</option>
+                    </select>
+                </div>
+                <div class="stats">
+                    <span id="fragranceCount">0</span> fragrances found
+                </div>
+            </div>
         </div>
 
-        <div class="results-info" id="resultsInfo"></div>
-        <main class="fragrance-grid" id="fragranceGrid"></main>
+        <!-- Grid -->
+        <div class="fragrances-grid" id="fragrancesGrid"></div>
     </div>
 
-    <!-- Detail Page View -->
-    <div id="detailView" class="detail-page">
-        <div class="detail-header">
-            <button class="back-btn" onclick="goBack()">← Back to Collection</button>
-            <h1 id="detailTitle"></h1>
+    <!-- Favorites Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 style="font-size: 1.2rem; font-weight: 600;">My Favorites</h2>
+            <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
         </div>
-        <div class="detail-content" id="detailContent"></div>
+        <div class="favorites-list" id="favoritesList"></div>
     </div>
+
+    <!-- Favorites Toggle Button -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-heart"></i>
+        <div class="favorite-count" id="favoriteCount" style="display: none;">0</div>
+    </button>
 
     <script>
-        let fragrances = [];
-        let activeCategory = 'All';
-        let activeConcentration = 'All';
-        let activeBrand = 'All';
-        let searchQuery = '';
+        let allFragrances = [];
+        let favorites = [];
+        let activeFilters = {
+            search: '',
+            brand: 'all',
+            season: 'all',
+            concentration: 'all',
+            gender: 'all',
+            occasion: 'all',
+            profile: 'all',
+            minPrice: 0,
+            maxPrice: 5000
+        };
         let sortBy = 'name-asc';
 
-        // Load fragrances from JSON
-        async function loadFragrances() {
-            try {
-                const response = await fetch('fragrances.json');
-                fragrances = await response.json();
-                populateBrandFilters();
-                renderFragrances();
-            } catch (error) {
-                console.error('Error loading fragrances:', error);
-                document.getElementById('fragranceGrid').innerHTML = '<div class="loading">Error loading fragrances. Please refresh the page.</div>';
+        // Load from localStorage
+        function loadFavorites() {
+            const saved = localStorage.getItem('fragrance-favorites');
+            favorites = saved ? JSON.parse(saved) : [];
+        }
+
+        function saveFavorites() {
+            localStorage.setItem('fragrance-favorites', JSON.stringify(favorites));
+            updateFavoritesUI();
+        }
+
+        function toggleFavorite(fragranceId) {
+            const index = favorites.findIndex(f => f.id === fragranceId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                const fragrance = allFragrances.find(f => f.id === fragranceId);
+                if (fragrance) favorites.push(fragrance);
             }
+            saveFavorites();
+            renderFragrances();
         }
 
-        function populateBrandFilters() {
-            const brands = [...new Set(fragrances.map(f => f.brand))].sort();
-            const brandFilters = document.getElementById('brandFilters');
-            
-            brands.forEach(brand => {
-                const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.setAttribute('data-brand', brand);
-                btn.textContent = brand;
-                btn.onclick = () => filterBrand(brand, btn);
-                brandFilters.appendChild(btn);
-            });
-        }
+        function updateFavoritesUI() {
+            const count = favorites.length;
+            const countEl = document.getElementById('favoriteCount');
+            if (count > 0) {
+                countEl.textContent = count;
+                countEl.style.display = 'flex';
+            } else {
+                countEl.style.display = 'none';
+            }
 
-        function renderFragrances() {
-            const grid = document.getElementById('fragranceGrid');
-            const resultsInfo = document.getElementById('resultsInfo');
-            grid.innerHTML = '';
-
-            let filtered = fragrances.filter(item => {
-                const matchesCategory = activeCategory === 'All' || item.tags.includes(activeCategory);
-                const matchesConcentration = activeConcentration === 'All' || item.concentration === activeConcentration;
-                const matchesBrand = activeBrand === 'All' || item.brand === activeBrand;
-                const query = searchQuery.toLowerCase();
-                const matchesSearch = item.name.toLowerCase().includes(query) ||
-                                      item.inspiredBy.toLowerCase().includes(query) ||
-                                      item.mainProfile.toLowerCase().includes(query) ||
-                                      item.brand.toLowerCase().includes(query);
-                return matchesCategory && matchesConcentration && matchesBrand && matchesSearch;
-            });
-
-            // Apply sorting
-            filtered = sortFragrances(filtered);
-
-            // Update results info
-            resultsInfo.textContent = `Showing ${filtered.length} fragrance${filtered.length !== 1 ? 's' : ''} of ${fragrances.length} total`;
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="no-results">No fragrances match your search criteria.</div>`;
+            const list = document.getElementById('favoritesList');
+            if (favorites.length === 0) {
+                list.innerHTML = '<div style="padding: 2rem; text-align: center; color: #999;">No favorites yet. Click the heart icon on fragrances to add them!</div>';
                 return;
             }
 
-            filtered.forEach(item => {
-                const card = document.createElement('div');
-                card.className = `card ${item.themeClass}`;
-                card.innerHTML = `
-                    <div>
-                        <div class="card-header">
-                            <span class="brand">${item.brand}</span>
-                            <div class="title-row">
-                                <h2 class="name">${item.name}</h2>
-                                <span class="size-tag">${item.bottleSize} · <span class="concentration-badge">${item.concentration}</span></span>
-                            </div>
-                        </div>
-                        <div class="clone-info">Inspired by: <strong>${item.inspiredBy}</strong></div>
-                        <div class="versatility-badge ${item.badgeClass}">${item.versatility}</div>
-                        <div class="profile">${item.mainProfile}</div>
+            list.innerHTML = favorites.map(frag => `
+                <div class="favorite-item">
+                    <div class="favorite-info">
+                        <div class="favorite-info-brand">${frag.brand}</div>
+                        <div class="favorite-info-name">${frag.name}</div>
+                        <div class="favorite-info-price">${frag.price}</div>
                     </div>
-                    <div class="spray-guides">
-                        <div class="spray-item">
-                            <span class="season season-summer">Summer<br><small>(Dec–Feb)</small></span>
-                            <span class="count">${item.sprays.summer} sprays</span>
-                        </div>
-                        <div class="spray-item">
-                            <span class="season season-spring-autumn">Spring / Autumn<br><small>(Sep–Nov / Mar–May)</small></span>
-                            <span class="count">${item.sprays.springAutumn} sprays</span>
-                        </div>
-                        <div class="spray-item">
-                            <span class="season season-winter">Winter<br><small>(Jun–Aug)</small></span>
-                            <span class="count">${item.sprays.winter} sprays</span>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="btn-details" onclick="viewDetails(${item.id})">View Details</button>
-                    </div>
-                `;
-                grid.appendChild(card);
+                    <button class="remove-favorite-btn" onclick="toggleFavorite(${frag.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        async function loadFragrances() {
+            try {
+                const response = await fetch('fragrances.json');
+                allFragrances = await response.json();
+                loadFavorites();
+                initializeFilters();
+                renderFragrances();
+            } catch (error) {
+                console.error('Error loading fragrances:', error);
+            }
+        }
+
+        function initializeFilters() {
+            const brands = [...new Set(allFragrances.map(f => f.brand))].sort();
+            const seasons = ['Summer', 'Winter', 'SpringAutumn', 'Year-Round'];
+            const concentrations = ['EDT', 'EDP', 'Parfum', 'Oil'];
+            const genders = ['Male', 'Female', 'Unisex'];
+            const occasions = ['Daily', 'Evening', 'Work', 'Formal', 'Casual', 'Intimate'];
+            const profiles = ['Oud', 'Amber', 'Floral', 'Citrus', 'Spice', 'Fresh'];
+
+            populateDropdown('brandFilter', brands);
+            populateDropdown('seasonFilter', seasons);
+            populateDropdown('concentrationFilter', concentrations);
+            populateDropdown('genderFilter', genders);
+            populateDropdown('occasionFilter', occasions);
+            populateDropdown('profileFilter', profiles);
+        }
+
+        function populateDropdown(elementId, items) {
+            const select = document.getElementById(elementId);
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                select.appendChild(option);
             });
         }
 
-        function viewDetails(id) {
-            const fragrance = fragrances.find(f => f.id === id);
-            if (!fragrance) return;
-
-            document.getElementById('gridView').classList.remove('active');
-            document.getElementById('detailView').classList.add('active');
-            document.getElementById('detailTitle').textContent = fragrance.name;
-
-            const detailContent = document.getElementById('detailContent');
-            detailContent.innerHTML = `
-                <div style="margin-bottom: 2rem;">
-                    <span style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">${fragrance.brand}</span>
-                    <p style="font-size: 1.1rem; margin: 0.5rem 0; color: var(--text-primary);">${fragrance.bottleSize} • ${fragrance.concentration}</p>
-                </div>
-
-                <h3>🎯 Olfactory Profile</h3>
-                <div class="notes-grid">
-                    <div class="note-card">
-                        <h4>Top Notes</h4>
-                        <p>${fragrance.topNotes}</p>
-                    </div>
-                    <div class="note-card">
-                        <h4>Middle Notes</h4>
-                        <p>${fragrance.middleNotes}</p>
-                    </div>
-                    <div class="note-card">
-                        <h4>Base Notes</h4>
-                        <p>${fragrance.baseNotes}</p>
-                    </div>
-                </div>
-
-                <h3>👃 Scent Experience</h3>
-                <p style="line-height: 1.6; color: var(--text-secondary);">${fragrance.scent_experience}</p>
-
-                <h3>📋 Key Details</h3>
-                <div class="grid-list">
-                    <div class="gird-list-item">
-                        <strong>Gender</strong>
-                        <span>${fragrance.gender}</span>
-                    </div>
-                    <div class="gird-list-item">
-                        <strong>Best For</strong>
-                        <span>${fragrance.bestFor}</span>
-                    </div>
-                    <div class="gird-list-item">
-                        <strong>Vibe</strong>
-                        <span>${fragrance.vibe}</span>
-                    </div>
-                    <div class="gird-list-item">
-                        <strong>Inspired By</strong>
-                        <span>${fragrance.inspiredBy}</span>
-                    </div>
-                </div>
-
-                <h3>💼 Office Wear</h3>
-                <p style="line-height: 1.6; color: var(--text-secondary); background-color: rgba(56, 189, 248, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid #38bdf8;">
-                    ${fragrance.officeWear}
-                </p>
-
-                <h3>🎭 Salon / Casual Settings</h3>
-                <p style="line-height: 1.6; color: var(--text-secondary); background-color: rgba(245, 158, 11, 0.05); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--color-summer);">
-                    ${fragrance.salonSettings}
-                </p>
-
-                <h3>⏰ Seasonal Usage</h3>
-                <div class="grid-list">
-                    <div class="gird-list-item">
-                        <strong>☀️ Summer (Dec–Feb)</strong>
-                        <span>${fragrance.sprays.summer} sprays</span>
-                    </div>
-                    <div class="gird-list-item">
-                        <strong>🍂 Spring/Autumn (Sep–Nov / Mar–May)</strong>
-                        <span>${fragrance.sprays.springAutumn} sprays</span>
-                    </div>
-                    <div class="gird-list-item">
-                        <strong>❄️ Winter (Jun–Aug)</strong>
-                        <span>${fragrance.sprays.winter} sprays</span>
-                    </div>
-                </div>
-
-                <div class="price-tag">
-                    💰 Current Price: ${fragrance.price}
-                </div>
-            `;
-
-            window.scrollTo(0, 0);
+        function setDropdownFilter(type, value) {
+            activeFilters[type] = value;
+            renderFragrances();
         }
 
-        function goBack() {
-            document.getElementById('gridView').classList.add('active');
-            document.getElementById('detailView').classList.remove('active');
-            window.scrollTo(0, 0);
+        function filterFragrances() {
+            return allFragrances.filter(frag => {
+                const matchesSearch = frag.name.toLowerCase().includes(activeFilters.search.toLowerCase()) ||
+                                    frag.brand.toLowerCase().includes(activeFilters.search.toLowerCase()) ||
+                                    (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.search.toLowerCase()));
+
+                const matchesBrand = activeFilters.brand === 'all' || frag.brand === activeFilters.brand;
+                const matchesSeason = activeFilters.season === 'all' || (frag.tags && frag.tags.includes(activeFilters.season));
+                const matchesConcentration = activeFilters.concentration === 'all' || frag.concentration === activeFilters.concentration;
+                const matchesGender = activeFilters.gender === 'all' || frag.gender === activeFilters.gender;
+                const matchesOccasion = activeFilters.occasion === 'all' || (frag.tags && frag.tags.includes(activeFilters.occasion));
+                const matchesProfile = activeFilters.profile === 'all' || (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.profile.toLowerCase()));
+
+                const price = parseFloat(frag.price.replace(/[R ZAR]/g, '').trim());
+                const matchesPrice = price >= activeFilters.minPrice && price <= activeFilters.maxPrice;
+
+                return matchesSearch && matchesBrand && matchesSeason && matchesConcentration && matchesGender && matchesOccasion && matchesProfile && matchesPrice;
+            });
         }
 
-        function sortFragrances(items) {
-            const sorted = [...items];
+        function sortFragrances(fragrances) {
+            const sorted = [...fragrances];
             switch(sortBy) {
                 case 'name-asc':
                     sorted.sort((a, b) => a.name.localeCompare(b.name));
@@ -776,9 +860,23 @@
                 case 'brand-asc':
                     sorted.sort((a, b) => a.brand.localeCompare(b.brand) || a.name.localeCompare(b.name));
                     break;
+                case 'price-asc':
+                    sorted.sort((a, b) => {
+                        const priceA = parseFloat(a.price.replace(/[R ZAR]/g, '').trim());
+                        const priceB = parseFloat(b.price.replace(/[R ZAR]/g, '').trim());
+                        return priceA - priceB;
+                    });
+                    break;
+                case 'price-desc':
+                    sorted.sort((a, b) => {
+                        const priceA = parseFloat(a.price.replace(/[R ZAR]/g, '').trim());
+                        const priceB = parseFloat(b.price.replace(/[R ZAR]/g, '').trim());
+                        return priceB - priceA;
+                    });
+                    break;
                 case 'concentration':
-                    const concentrationOrder = { 'Parfum': 0, 'EDP': 1, 'EDT': 2 };
-                    sorted.sort((a, b) => (concentrationOrder[a.concentration] || 3) - (concentrationOrder[b.concentration] || 3));
+                    const concentrationOrder = { 'Parfum': 0, 'EDP': 1, 'EDT': 2, 'Oil': 3 };
+                    sorted.sort((a, b) => (concentrationOrder[a.concentration] || 4) - (concentrationOrder[b.concentration] || 4));
                     break;
                 case 'newest':
                     sorted.reverse();
@@ -787,39 +885,98 @@
             return sorted;
         }
 
-        function filterCategory(category, button) {
-            activeCategory = category;
-            document.querySelectorAll('[data-category]').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            renderFragrances();
+        function getTagClass(tag) {
+            if (tag === 'Summer') return 'tag-summer';
+            if (tag === 'Winter') return 'tag-winter';
+            if (tag === 'Year-Round') return 'tag-year-round';
+            if (tag === 'SpringAutumn') return 'tag-autumn';
+            return 'tag-year-round';
         }
 
-        function filterConcentration(concentration, button) {
-            activeConcentration = concentration;
-            document.querySelectorAll('[data-concentration]').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            renderFragrances();
+        function renderFragrances() {
+            const filtered = filterFragrances();
+            const sorted = sortFragrances(filtered);
+
+            document.getElementById('fragranceCount').textContent = sorted.length;
+
+            if (sorted.length === 0) {
+                document.getElementById('fragrancesGrid').innerHTML = '<div class="no-results"><p>No fragrances found. Try adjusting your filters.</p></div>';
+                return;
+            }
+
+            document.getElementById('fragrancesGrid').innerHTML = sorted.map(frag => {
+                const isFavorite = favorites.some(f => f.id === frag.id);
+                const seasonTags = frag.tags ? frag.tags.filter(t => ['Summer', 'Winter', 'SpringAutumn', 'Year-Round'].includes(t)) : [];
+                return `
+                    <div class="fragrance-card">
+                        <div class="card-header">
+                            <button class="favorite-btn ${isFavorite ? 'saved' : ''}" onclick="toggleFavorite(${frag.id})">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <div class="card-brand">${frag.brand}</div>
+                            <div class="card-name">${frag.name}</div>
+                            <div class="card-price">${frag.price}</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-detail-row">
+                                <span class="detail-label">Size</span>
+                                <span class="detail-value">${frag.bottleSize}</span>
+                            </div>
+                            <div class="card-detail-row">
+                                <span class="detail-label">Type</span>
+                                <span class="detail-value">${frag.concentration}</span>
+                            </div>
+                            <div class="card-detail-row">
+                                <span class="detail-label">Gender</span>
+                                <span class="detail-value">${frag.gender}</span>
+                            </div>
+                            <div class="tags">
+                                ${seasonTags.map(tag => `<span class="tag ${getTagClass(tag)}">${tag}</span>`).join('')}
+                            </div>
+                            ${frag.mainProfile ? `
+                                <div class="notes-section">
+                                    <div class="notes-title">Scent Profile</div>
+                                    <div class="note">${frag.mainProfile}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function filterBrand(brand, button) {
-            activeBrand = brand;
-            document.querySelectorAll('[data-brand]').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            renderFragrances();
-        }
-
-        function updateSort() {
-            sortBy = document.getElementById('sortBy').value;
-            renderFragrances();
-        }
-
+        // Event Listeners
         document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchQuery = e.target.value;
+            activeFilters.search = e.target.value;
             renderFragrances();
         });
 
-        // Load fragrances when page loads
-        window.addEventListener('load', loadFragrances);
+        document.getElementById('minPrice').addEventListener('change', (e) => {
+            activeFilters.minPrice = parseFloat(e.target.value) || 0;
+            renderFragrances();
+        });
+
+        document.getElementById('maxPrice').addEventListener('change', (e) => {
+            activeFilters.maxPrice = parseFloat(e.target.value) || 5000;
+            renderFragrances();
+        });
+
+        document.getElementById('sortBy').addEventListener('change', (e) => {
+            sortBy = e.target.value;
+            renderFragrances();
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            if (!sidebar.contains(e.target) && !toggle.contains(e.target) && sidebar.classList.contains('open')) {
+                toggleSidebar();
+            }
+        });
+
+        // Initialize
+        loadFragrances();
     </script>
 </body>
 </html>
