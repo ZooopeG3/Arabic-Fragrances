@@ -806,19 +806,28 @@
             const profiles = ['Oud', 'Amber', 'Floral', 'Citrus', 'Spice', 'Fresh'];
 
             populateDropdown('brandFilter', brands);
-            populateDropdown('seasonFilter', seasons);
+            populateDropdown('seasonFilter', seasons, 'season');
             populateDropdown('concentrationFilter', concentrations);
             populateDropdown('genderFilter', genders);
-            populateDropdown('occasionFilter', occasions);
+            populateDropdown('occasionFilter', occasions, 'occasion');
             populateDropdown('profileFilter', profiles);
         }
 
-        function populateDropdown(elementId, items) {
+        function populateDropdown(elementId, items, filterType = null) {
             const select = document.getElementById(elementId);
             items.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item;
-                option.textContent = item;
+                
+                // Format display text for better readability
+                if (filterType === 'season' && item === 'SpringAutumn') {
+                    option.textContent = 'Spring & Autumn';
+                } else if (filterType === 'season' && item === 'Year-Round') {
+                    option.textContent = 'Year-Round';
+                } else {
+                    option.textContent = item;
+                }
+                
                 select.appendChild(option);
             });
         }
@@ -835,11 +844,21 @@
                                     (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.search.toLowerCase()));
 
                 const matchesBrand = activeFilters.brand === 'all' || frag.brand === activeFilters.brand;
-                const matchesSeason = activeFilters.season === 'all' || (frag.tags && frag.tags.includes(activeFilters.season));
+                
+                // Handle season filter - match exact tag value
+                const matchesSeason = activeFilters.season === 'all' || 
+                    (frag.tags && frag.tags.some(tag => tag === activeFilters.season));
+                
                 const matchesConcentration = activeFilters.concentration === 'all' || frag.concentration === activeFilters.concentration;
+                
                 const matchesGender = activeFilters.gender === 'all' || frag.gender === activeFilters.gender;
-                const matchesOccasion = activeFilters.occasion === 'all' || (frag.tags && frag.tags.includes(activeFilters.occasion));
-                const matchesProfile = activeFilters.profile === 'all' || (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.profile.toLowerCase()));
+                
+                // Handle occasion filter - match exact tag value
+                const matchesOccasion = activeFilters.occasion === 'all' || 
+                    (frag.tags && frag.tags.some(tag => tag === activeFilters.occasion));
+                
+                const matchesProfile = activeFilters.profile === 'all' || 
+                    (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.profile.toLowerCase()));
 
                 const price = parseFloat(frag.price.replace(/[R ZAR]/g, '').trim());
                 const matchesPrice = price >= activeFilters.minPrice && price <= activeFilters.maxPrice;
