@@ -7,7 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            /* Luxury color palette - warm golds, deep jewel tones, premium blacks */
             --primary-gold: #d4af37;
             --primary-dark: #0f0e0c;
             --secondary-burgundy: #8b4757;
@@ -17,8 +16,6 @@
             --border-light: #e8e8e8;
             --success: #27ae60;
             --warning: #f39c12;
-            
-            /* Season colors - refined */
             --summer: #e8b944;
             --autumn: #c97a44;
             --winter: #4a7c9e;
@@ -38,7 +35,6 @@
             line-height: 1.6;
         }
 
-        /* Header Section */
         header {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1a1a 100%);
             color: var(--accent-champagne);
@@ -69,14 +65,12 @@
             opacity: 0.7;
         }
 
-        /* Container */
         .container {
             max-width: 1600px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Controls Section */
         .controls-section {
             background: white;
             padding: 2.5rem;
@@ -162,7 +156,6 @@
             color: white;
         }
 
-        /* Price Range Slider */
         .price-range-container {
             display: flex;
             gap: 1rem;
@@ -178,37 +171,6 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
-        .price-slider {
-            flex: 1;
-            min-width: 200px;
-            height: 6px;
-            border-radius: 3px;
-            background: linear-gradient(to right, var(--primary-gold), var(--primary-gold));
-            outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .price-slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary-gold);
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .price-slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary-gold);
-            cursor: pointer;
-            border: none;
-        }
-
-        /* Sort Section */
         .sort-container {
             display: flex;
             gap: 1rem;
@@ -241,7 +203,6 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* Fragrance Grid */
         .fragrances-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -249,7 +210,6 @@
             margin: 3rem 0;
         }
 
-        /* Premium Card Design */
         .fragrance-card {
             background: white;
             border: 1px solid var(--border-light);
@@ -259,6 +219,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .fragrance-card:hover {
@@ -267,7 +228,6 @@
             border-color: var(--primary-gold);
         }
 
-        /* Card Header */
         .card-header {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1a1a 100%);
             padding: 1.5rem;
@@ -323,7 +283,6 @@
             color: var(--primary-gold);
         }
 
-        /* Card Body */
         .card-body {
             padding: 1.5rem;
             flex: 1;
@@ -355,7 +314,6 @@
             font-weight: 500;
         }
 
-        /* Badges */
         .tags {
             display: flex;
             flex-wrap: wrap;
@@ -393,7 +351,6 @@
             color: #c97a44;
         }
 
-        /* Notes Section */
         .notes-section {
             margin-top: 1rem;
             padding-top: 1rem;
@@ -417,7 +374,6 @@
             line-height: 1.4;
         }
 
-        /* Empty State */
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
@@ -430,7 +386,137 @@
             margin-bottom: 1rem;
         }
 
-        /* Sidebar for Favorites */
+        .detail-panel {
+            position: fixed;
+            right: -500px;
+            top: 0;
+            width: 500px;
+            height: 100vh;
+            background: white;
+            border-left: 1px solid var(--border-light);
+            box-shadow: -4px 0 16px rgba(0,0,0,0.15);
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 200;
+        }
+
+        .detail-panel.open {
+            right: 0;
+        }
+
+        .detail-panel-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a1a1a 100%);
+            color: var(--accent-champagne);
+            padding: 2rem;
+            border-bottom: 2px solid var(--primary-gold);
+            position: relative;
+        }
+
+        .detail-panel-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent-champagne);
+            transition: color 0.3s;
+        }
+
+        .detail-panel-close:hover {
+            color: var(--primary-gold);
+        }
+
+        .detail-panel-brand {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .detail-panel-name {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .detail-panel-price {
+            font-size: 1.8rem;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 600;
+            color: var(--primary-gold);
+        }
+
+        .detail-panel-content {
+            padding: 2rem;
+        }
+
+        .detail-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+        }
+
+        .detail-section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            font-family: 'Segoe UI', sans-serif;
+            border-bottom: 2px solid var(--primary-gold);
+            padding-bottom: 0.5rem;
+        }
+
+        .detail-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .detail-info-label {
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+        }
+
+        .detail-info-value {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-align: right;
+            flex: 1;
+            margin-left: 1rem;
+        }
+
+        .detail-text {
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
         .sidebar {
             position: fixed;
             right: -300px;
@@ -552,17 +638,20 @@
             font-weight: 600;
         }
 
-        /* Filter Grid */
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1rem;
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
             .filter-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .detail-panel {
+                width: 400px;
+                right: -400px;
             }
         }
 
@@ -592,13 +681,18 @@
                 width: 100%;
                 right: -100%;
             }
+
+            .detail-panel {
+                width: 100%;
+                right: -100%;
+            }
         }
 
-        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
             .fragrance-card,
             .favorite-btn,
             .sidebar,
+            .detail-panel,
             .sidebar-toggle {
                 transition: none;
             }
@@ -614,12 +708,10 @@
 
     <div class="container">
         <div class="controls-section">
-            <!-- Search -->
             <div class="search-container">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search fragrances by name, brand, or notes...">
             </div>
 
-            <!-- Filters -->
             <div class="filter-grid">
                 <div class="filter-group">
                     <div class="filter-title"><i class="fas fa-building"></i> Brand</div>
@@ -673,7 +765,6 @@
                 </div>
             </div>
 
-            <!-- Sort & Stats -->
             <div class="sort-container">
                 <div>
                     <label for="sortBy" style="font-family: 'Segoe UI', sans-serif; font-weight: 600; margin-right: 0.5rem;">Sort by:</label>
@@ -693,11 +784,19 @@
             </div>
         </div>
 
-        <!-- Grid -->
         <div class="fragrances-grid" id="fragrancesGrid"></div>
     </div>
 
-    <!-- Favorites Sidebar -->
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-panel-header">
+            <button class="detail-panel-close" onclick="closeDetailPanel()">✕</button>
+            <div class="detail-panel-brand" id="detailBrand"></div>
+            <div class="detail-panel-name" id="detailName"></div>
+            <div class="detail-panel-price" id="detailPrice"></div>
+        </div>
+        <div class="detail-panel-content" id="detailContent"></div>
+    </div>
+
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2 style="font-size: 1.2rem; font-weight: 600;">My Favorites</h2>
@@ -706,7 +805,6 @@
         <div class="favorites-list" id="favoritesList"></div>
     </div>
 
-    <!-- Favorites Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">
         <i class="fas fa-heart"></i>
         <div class="favorite-count" id="favoriteCount" style="display: none;">0</div>
@@ -728,7 +826,6 @@
         };
         let sortBy = 'name-asc';
 
-        // Load from localStorage
         function loadFavorites() {
             const saved = localStorage.getItem('fragrance-favorites');
             favorites = saved ? JSON.parse(saved) : [];
@@ -739,7 +836,8 @@
             updateFavoritesUI();
         }
 
-        function toggleFavorite(fragranceId) {
+        function toggleFavorite(fragranceId, event) {
+            if (event) event.stopPropagation();
             const index = favorites.findIndex(f => f.id === fragranceId);
             if (index > -1) {
                 favorites.splice(index, 1);
@@ -774,7 +872,7 @@
                         <div class="favorite-info-name">${frag.name}</div>
                         <div class="favorite-info-price">${frag.price}</div>
                     </div>
-                    <button class="remove-favorite-btn" onclick="toggleFavorite(${frag.id})">
+                    <button class="remove-favorite-btn" onclick="toggleFavorite(${frag.id}, event)">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -783,6 +881,172 @@
 
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function openDetailPanel(fragranceId) {
+            const fragrance = allFragrances.find(f => f.id === fragranceId);
+            if (!fragrance) return;
+
+            document.getElementById('detailBrand').textContent = fragrance.brand;
+            document.getElementById('detailName').textContent = fragrance.name;
+            document.getElementById('detailPrice').textContent = fragrance.price;
+
+            const seasonTags = fragrance.tags ? fragrance.tags.filter(t => ['Summer', 'Winter', 'SpringAutumn', 'Year-Round'].includes(t)) : [];
+            const isFavorite = favorites.some(f => f.id === fragrance.id);
+
+            let content = '';
+
+            content += `
+                <div class="detail-section">
+                    <div class="detail-section-title">Basic Information</div>
+                    <div class="detail-info-row">
+                        <span class="detail-info-label">Bottle Size</span>
+                        <span class="detail-info-value">${fragrance.bottleSize}</span>
+                    </div>
+                    <div class="detail-info-row">
+                        <span class="detail-info-label">Concentration</span>
+                        <span class="detail-info-value">${fragrance.concentration}</span>
+                    </div>
+                    <div class="detail-info-row">
+                        <span class="detail-info-label">Gender</span>
+                        <span class="detail-info-value">${fragrance.gender}</span>
+                    </div>
+                    <div class="detail-info-row">
+                        <span class="detail-info-label">Favorite</span>
+                        <span class="detail-info-value">${isFavorite ? 'Saved' : 'Not saved'}</span>
+                    </div>
+                </div>
+            `;
+
+            if (fragrance.inspiredBy && fragrance.inspiredBy !== 'N/A') {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Inspired By</div>
+                        <div class="detail-text">${fragrance.inspiredBy}</div>
+                    </div>
+                `;
+            }
+
+            if (fragrance.mainProfile) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Main Profile</div>
+                        <div class="detail-text">${fragrance.mainProfile}</div>
+                    </div>
+                `;
+            }
+
+            content += `
+                <div class="detail-section">
+                    <div class="detail-section-title">Fragrance Notes</div>
+                    ${fragrance.topNotes ? `
+                        <div style="margin-bottom: 1rem;">
+                            <div class="detail-info-label" style="margin-bottom: 0.5rem;">Top Notes</div>
+                            <div class="detail-text">${fragrance.topNotes}</div>
+                        </div>
+                    ` : ''}
+                    ${fragrance.middleNotes ? `
+                        <div style="margin-bottom: 1rem;">
+                            <div class="detail-info-label" style="margin-bottom: 0.5rem;">Middle Notes</div>
+                            <div class="detail-text">${fragrance.middleNotes}</div>
+                        </div>
+                    ` : ''}
+                    ${fragrance.baseNotes ? `
+                        <div>
+                            <div class="detail-info-label" style="margin-bottom: 0.5rem;">Base Notes</div>
+                            <div class="detail-text">${fragrance.baseNotes}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            content += `
+                <div class="detail-section">
+                    <div class="detail-section-title">Seasonal Usage</div>
+                    ${fragrance.sprays ? `
+                        <div class="detail-info-row">
+                            <span class="detail-info-label">Summer</span>
+                            <span class="detail-info-value">${fragrance.sprays.summer}</span>
+                        </div>
+                        <div class="detail-info-row">
+                            <span class="detail-info-label">Winter</span>
+                            <span class="detail-info-value">${fragrance.sprays.winter}</span>
+                        </div>
+                        <div class="detail-info-row">
+                            <span class="detail-info-label">Spring/Autumn</span>
+                            <span class="detail-info-value">${fragrance.sprays.springAutumn}</span>
+                        </div>
+                    ` : ''}
+                    ${seasonTags.length > 0 ? `
+                        <div style="margin-top: 1rem;">
+                            <div class="detail-info-label" style="margin-bottom: 0.5rem;">Seasons</div>
+                            <div class="detail-tags">
+                                ${seasonTags.map(tag => `<span class="tag ${getTagClass(tag)}">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            if (fragrance.officeWear || fragrance.salonSettings || fragrance.bestFor) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Usage & Settings</div>
+                        ${fragrance.bestFor ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="detail-info-label" style="margin-bottom: 0.5rem;">Best For</div>
+                                <div class="detail-text">${fragrance.bestFor}</div>
+                            </div>
+                        ` : ''}
+                        ${fragrance.officeWear ? `
+                            <div style="margin-bottom: 1rem;">
+                                <div class="detail-info-label" style="margin-bottom: 0.5rem;">Office Wear</div>
+                                <div class="detail-text">${fragrance.officeWear}</div>
+                            </div>
+                        ` : ''}
+                        ${fragrance.salonSettings ? `
+                            <div>
+                                <div class="detail-info-label" style="margin-bottom: 0.5rem;">Salon Settings</div>
+                                <div class="detail-text">${fragrance.salonSettings}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            if (fragrance.vibe) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Vibe</div>
+                        <div class="detail-text">${fragrance.vibe}</div>
+                    </div>
+                `;
+            }
+
+            if (fragrance.scent_experience) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Scent Experience</div>
+                        <div class="detail-text">${fragrance.scent_experience}</div>
+                    </div>
+                `;
+            }
+
+            if (fragrance.versatility) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Versatility</div>
+                        <div class="detail-text">${fragrance.versatility}</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('detailContent').innerHTML = content;
+            document.getElementById('detailPanel').classList.add('open');
+        }
+
+        function closeDetailPanel() {
+            document.getElementById('detailPanel').classList.remove('open');
         }
 
         async function loadFragrances() {
@@ -818,8 +1082,7 @@
             items.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item;
-                
-                // Format display text for better readability
+
                 if (filterType === 'season' && item === 'SpringAutumn') {
                     option.textContent = 'Spring & Autumn';
                 } else if (filterType === 'season' && item === 'Year-Round') {
@@ -827,7 +1090,7 @@
                 } else {
                     option.textContent = item;
                 }
-                
+
                 select.appendChild(option);
             });
         }
@@ -840,25 +1103,15 @@
         function filterFragrances() {
             return allFragrances.filter(frag => {
                 const matchesSearch = frag.name.toLowerCase().includes(activeFilters.search.toLowerCase()) ||
-                                    frag.brand.toLowerCase().includes(activeFilters.search.toLowerCase()) ||
-                                    (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.search.toLowerCase()));
+                    frag.brand.toLowerCase().includes(activeFilters.search.toLowerCase()) ||
+                    (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.search.toLowerCase()));
 
                 const matchesBrand = activeFilters.brand === 'all' || frag.brand === activeFilters.brand;
-                
-                // Handle season filter - match exact tag value
-                const matchesSeason = activeFilters.season === 'all' || 
-                    (frag.tags && frag.tags.some(tag => tag === activeFilters.season));
-                
+                const matchesSeason = activeFilters.season === 'all' || (frag.tags && frag.tags.some(tag => tag === activeFilters.season));
                 const matchesConcentration = activeFilters.concentration === 'all' || frag.concentration === activeFilters.concentration;
-                
                 const matchesGender = activeFilters.gender === 'all' || frag.gender === activeFilters.gender;
-                
-                // Handle occasion filter - match exact tag value
-                const matchesOccasion = activeFilters.occasion === 'all' || 
-                    (frag.tags && frag.tags.some(tag => tag === activeFilters.occasion));
-                
-                const matchesProfile = activeFilters.profile === 'all' || 
-                    (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.profile.toLowerCase()));
+                const matchesOccasion = activeFilters.occasion === 'all' || (frag.tags && frag.tags.some(tag => tag === activeFilters.occasion));
+                const matchesProfile = activeFilters.profile === 'all' || (frag.mainProfile && frag.mainProfile.toLowerCase().includes(activeFilters.profile.toLowerCase()));
 
                 const price = parseFloat(frag.price.replace(/[R ZAR]/g, '').trim());
                 const matchesPrice = price >= activeFilters.minPrice && price <= activeFilters.maxPrice;
@@ -869,7 +1122,7 @@
 
         function sortFragrances(fragrances) {
             const sorted = [...fragrances];
-            switch(sortBy) {
+            switch (sortBy) {
                 case 'name-asc':
                     sorted.sort((a, b) => a.name.localeCompare(b.name));
                     break;
@@ -927,9 +1180,9 @@
                 const isFavorite = favorites.some(f => f.id === frag.id);
                 const seasonTags = frag.tags ? frag.tags.filter(t => ['Summer', 'Winter', 'SpringAutumn', 'Year-Round'].includes(t)) : [];
                 return `
-                    <div class="fragrance-card">
+                    <div class="fragrance-card" onclick="openDetailPanel(${frag.id})">
                         <div class="card-header">
-                            <button class="favorite-btn ${isFavorite ? 'saved' : ''}" onclick="toggleFavorite(${frag.id})">
+                            <button class="favorite-btn ${isFavorite ? 'saved' : ''}" onclick="toggleFavorite(${frag.id}, event)">
                                 <i class="fas fa-heart"></i>
                             </button>
                             <div class="card-brand">${frag.brand}</div>
@@ -964,7 +1217,6 @@
             }).join('');
         }
 
-        // Event Listeners
         document.getElementById('searchInput').addEventListener('input', (e) => {
             activeFilters.search = e.target.value;
             renderFragrances();
@@ -985,16 +1237,20 @@
             renderFragrances();
         });
 
-        // Close sidebar when clicking outside
         document.addEventListener('click', (e) => {
             const sidebar = document.getElementById('sidebar');
             const toggle = document.querySelector('.sidebar-toggle');
+            const detailPanel = document.getElementById('detailPanel');
+
             if (!sidebar.contains(e.target) && !toggle.contains(e.target) && sidebar.classList.contains('open')) {
                 toggleSidebar();
             }
+
+            if (!detailPanel.contains(e.target) && !e.target.closest('.fragrance-card') && detailPanel.classList.contains('open')) {
+                closeDetailPanel();
+            }
         });
 
-        // Initialize
         loadFragrances();
     </script>
 </body>
